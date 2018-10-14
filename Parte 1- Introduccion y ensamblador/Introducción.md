@@ -183,10 +183,17 @@ El concepto de direccionamiento lo que hace es decir donde esta el objeto, de es
 		SUBC .R1, .R2 	R1 <- R1 - R2 - c; mod. flags
 		CMP .R1, .R2 R1 – R2 ; mod. flags	
 	
-	•Modelo Registro-Registro.	ADD .R1,.R2 R1 <- R1 + R2; mod. Flags	ADD .R1,#4 R1 <- R1 + 4; mod. Flags	Modelo Registro-Memoria.	ADD .R1,[.R2] R1 <- R1 + MEM(R2); mod. Flags	Modelo Memoria-Memoria.	ADD [.R1],#4[.R2] MEM(R1) <- MEM(R1) + MEM(R2+4);
+* Modelo Registro-Registro.
 
-
-	AND .R1,.R2 R1 <- R1 AND R2; mod. Flags	XOR .R1,#4 R1 <- R1 XOR 4; mod. Flags	OR .R1,.R2 R1 <- R1 OR R2; mod. Flags	NOT .R1 R1 <- NOT R1; mod. Flags	Se utilizan para trabajar con máscaras	AND .R1, #1 ; Si Z = 1 el número es par
+		ADD .R1,.R2 			R1 <- R1 + R2; mod. Flags		ADD .R1,#4 			R1 <- R1 + 4; mod. Flags	
+* Modelo Registro-Memoria.		
+		ADD .R1,[.R2] R1 <- R1 + MEM(R2); mod. Flags* Modelo Memoria-Memoria.	
+		ADD [.R1],#4[.R2] MEM(R1) <- MEM(R1) + MEM(R2+4);
+		AND .R1,.R2 R1 <- R1 AND R2; mod. Flags	
+* Operaciones Lógicas
+	
+		XOR .R1,#4 R1 <- R1 XOR 4; mod. Flags		OR .R1,.R2 R1 <- R1 OR R2; mod. Flags		NOT .R1 R1 <- NOT R1; mod. Flags	Se utilizan para trabajar con máscaras	
+		AND .R1, #1 ; Si Z = 1 el número es par
 	
 ### Arquitectura 88110 
 
@@ -220,3 +227,14 @@ Tiene direccionamiento :
 ##### Juego de instrucciones
 
 * Lógicas (or, and, xor, mask)* Aritméticas (add, sub, addu, subu, muls, mulu, divs, divu, cmp)* Bifurcaciones (bb0, bb1, br, bsr, jmp, jsr)* Transferencia (ld, st, ldcr, stcr, xmem)* Campos de bit (clr, set, ext, extu, mak, rot)* Coma flotante (fadd, fsub, fmul, fdiv, fcvt, flt, int, fcmp) 
+
+
+##### Pseudoinstrucciones* Org n: Indica que el código que le sigue se almacene en la posición dememoria n.* Res n: Indica que se reserven n bytes en memoria. N debe estar alineado apalabra.* Data a, b, c, ....: Inicializa las posiciones de memoria con los valores a, b y c.* Data “texto”: Inicializa las posiciones de memoria con la cadena de bytestexto. Asegura que la siguiente palabra en memoria está alineada (véaseejemplo).* Low(etiqueta o inmediato): Devuelve los 16 bits menos significativos de ladirección asociada a la etiqueta o dato inmediato.* High(etiqueta o inmediato): Devuelve los 16 bits más significativos de ladirección asociada a la etiqueta o dato inmediato.pág. 21
+##### Macros: 
+Conjunto de sentencias a las que se le asigna un nombre y se les pasa un conjunto de argumentos.
+##### SubrutinasParte de código cerrado, con especificación bien definida, que se puede utilizardesde varios puntos de un programa o diferentes programas. Una vez ejecutado elcódigo de la subrutina se debe retornar “al lugar desde el que se llamó”.
+* Variables globales: se crean cuando arranca el programa y tiene validezdurante toda la vida del mismo*  Variables locales: Se crean cada vez que se activa la subrutina y se destruyen cuando se finaliza cada ejecución.##### Marco de pila: 
+Conjunto de datos privados a una subrutina que incluye, parámetros, dirección de retorno y variables locales. Se dedica un registro que apunta a una posición conocida del marco de pila: puntero de marco de pila (frame pointer o FP). En 88110 es r31.Pasos a seguir para subrutinas del 88110
+1. Activación de las subrutinas y creación del marco de pila	* 1.1 Almacenamiento de la dirección de retorno	* Guardar puntero de marco de pila antiguo	* Creamos el marco de pila	* Se establece el nuevo valor de fp	* Reservar espacio en la pila para variables locales y salvar registros
+	* Inicializar variables locales2. Código de subrutina3. Destrozar marco de pila y retorno de subrutina	* Restaurar puntero del marco de pila antiguo	* Recuperar este	* Recuperar dirección de retorno	* Retornar
+
