@@ -46,3 +46,169 @@
 	ADD .R4,#4 
 	DBNZ .R1,[.RT2]
 
+## 1 Ejercicio ”Descomponer”:  LD R1 ./1000
+
+	Fetch : PC -> AR; (MEMRQ,RD) Mem -> DR; PC ++
+	MEM(AR) -> DR; 
+	DR -> RI;
+	Pc +1-> PC
+	Decod			1 pal				2 pal
+		[ C.O 	|	R1 ]	...…. 	[	/dir	]
+	PC -> AR, (MEMRQ,RD) Mem -> DR ; PC ++….. Cargo dir (2pal)
+	Ejec	DR -> AR, (MEMRQ,RD) Mem -> DR; DR -> BR(R1)…… Cargo el contenido de DIR
+
+
+
+
+## 2 Ejer SUB r1 r2
+	Fetch : PC -> AR; (MEMRQ,RD) Mem -> DR;
+	MEM(AR) -> DR; 
+	DR -> RI;
+	Pc +1-> PC
+	Decod		
+	Ejec	Br(R1)-Br(R2) -> Br(R1)
+	DR -> AR, (MEMRQ,RD) Mem -> DR; DR -> BR(R1)…… Cargo el contenido de DIR
+
+## 3 Ejercicio ST r1 , /1200 “2 palabras ocupa”
+	Fetch : PC -> AR; (MEMRQ,RD) Mem -> DR; PC ++
+	MEM(AR) -> DR; 
+	DR -> RI;
+	Pc +1-> PC
+	Decod			1 pal				2 pal
+		[ C.O 	|	R1 ]	...…. 	[	/dir	]
+	PC -> AR, (MEMRQ,RD) Mem -> DR ; PC ++….. Cargo dir (2pal)
+	Ejec	DR -> AR; r1 -> DR ; ((MEMRQ,WR)) DR -> MEM(AR)
+
+
+## 4 Ejercicio jmpz /50 
+	Si z  PC <- 50
+	Fetch 
+	Si no Z fetch 
+
+
+## 5 Sea un computador con modelo de ejecución registro-registro cuyos únicos modos de direccionamiento son: inmediato, directo a registro e indirecto a registro. Programe el código equivalente a las instrucciones que se indican: 
+DBNZ .R1, #7[.R4] ; Decrementa el primer operando y si el resultado no es cero salta al segundo operando. 
+SWAP .R1, #7[++.R2] ; Intercambia el contenido de R1 y de la posici´on de memoria indicada por el segundo operando.
+
+R-R 
+### 1.DBNZ .R1, #7[.R4]
+
+	R1<-R1-1; 
+	act RE; 
+	Si NZ PC <- R4 + 7
+	SUB .R1,#1
+	BZ $Fin
+	NZ op1
+	Mov .r4 , Rt1
+	Add Rt1,#7
+	BR [Rt1]
+	NZ op2
+	Mov R4, Rt1
+	ADD RT1,#7
+	DBNZ R1, [Rt1]
+
+
+### 2.SWAP .R1, #7[++.R2] 
+	R2 + 1 -> R2
+	R1 -> M(7 + R2)
+	Add .R2, #1
+	Mov .r2 , Rt2
+	ADD RT2 , #7
+	Swap .R1 [RT2]		→ MOV .R1, .RT1
+	→ LD .R1, [ RT2 ]
+	ST .RT1, [ .RT2 ]
+
+
+
+9 Dado un computador con palabras y direcciones de 32 bits, 30 registros de propósito general y 500 instrucciones. Indique el formato de las siguientes instrucciones: 
+
+a) BR #8[.R7] 
+
+b) ADD [.R4], #4 
+
+c) ST .R4, /2000 
+
+d) LD.R4,#4[.R7]
+
+Co 9 R 5 codigo 18			dirm 32 
+
+Co 9 R 5 R/ 5 Desp 13
+
+CO 9 desp 23
+
+##Ejer 1  En un computador con palabras y direcciones de 16 bits, con direccionamiento a nivel de palabra, se ejecuta el siguiente fragmento de código en el que el tamaño de cada instrucción se indica como comentario. Considere que a partir de la dirección de memoria H’1008 se encuentran almacenados respectivamente los siguientes datos: H’0001, H’0002, H’0003, H’0004 y H’0005. Indique los valores sucesivos que toman los registros y posiciones de memoria afectados por la ejecución. 
+
+	LD .R1, #100C ; 2 palabras 			R1 -> 100C      
+	LD .R2, #1008 ; 2 palabras 			R2 -> 1008
+	SUB .R1, [.R2--] ; 1 palabra 			R1 -> 100B, R2 -> 1007 (Dir a palabra -1)(Si fuera a byte serian -2)
+	DEC .R1 ; 1 palabra 				R1 -> 100A 
+	ST .R1, #4[++.R2] ; 2 palabras 		R2 -> 1008, (H´100C	    |	H´100A)
+	CMP .R1, .R2 ; 1 palabra 			ACT RE
+	BNZ $-6 ; 1 palabra  salta 			salta a 2* 
+	MOVE [++.R2], [.R1++] ; 1 palabra 		(H´1008     |	H´0002) |R1 → 1009
+	HALT ; 1 palabra *2 loop del 7
+	LD .R2, #1008 ; 2 palabras 			R2 -> 1008
+	SUB .R1, [.R2--] ; 1 palabra 			R1 -> 1009, R2 -> 1007 (Dir a palabra -1)(Si fuera a byte serian -2)
+	DEC .R1 ; 1 palabra 				R1 -> 1008 
+	ST .R1, #4[++.R2] ; 2 palabras 		R2 -> 1008, (H´100C	    |	H´1008)
+	CMP .R1, .R2 ; 1 palabra 			ACT RE
+	BNZ $-6 ; 1 palabra  salta 			salta a 2* 
+	
+*memoria* 	
+
+	INI
+	H´1008		H´0001	
+	H´1009		H´0002
+	H´100A		H´0003
+	H´100B		H´0004
+	H´100C		H´0005
+	FIN
+	H´1008		H´0002	
+	H´1009		H´0002
+	H´100A		H´0003
+	H´100B		H´0004
+	H´100C		H´1008
+
+
+## 2 Sea un computador con palabras y direcciones de 32 bits, direccionamiento a nivel de byte y ordenamiento little-endian que ejecuta el siguiente fragmento de código en el que todas las instrucciones ocupan una palabra. Las direcciones de memoria 0 a 7 contienen los siguientes valores hexadecimales respectivamente: EF, FE, 00, 00, DF, FD, 00, 00. 
+
+	LD .R2, #H’0008 
+	LD .R4, [--.R2] 
+	CMP .R4, #0 
+	BZ $8 
+	CMP .R2, #0 
+	BNZ $-20 
+	ADD [.R2--], .R4 
+	HALT 
+
+Indique razonadamente los valores sucesivos que toman los registros y posiciones de memoria que se modifican durante la ejecución de las instrucciones.
+
+* Memoria 
+
+0     |	EF
+
+1     |	FE
+
+2     |	00
+
+3     |	00
+
+4     |	DF
+
+5     |	FD
+
+6     |	00
+
+7     |	00
+
+Del 0 al 3 primera palabra , del 4 al 7 la segunda
+M(0000) -> 00 00 FE EF
+
+	LD .R2, #H’0008 
+	LD .R4, [--.R2] 	R2→ 0004, 	R4 → 0000FDDF | R2→ 0004, 	R4 → 0000FEEF	
+	CMP .R4, #0 		
+	BZ $8 
+	CMP .R2, #0 
+	BNZ $-20		Salto a 2 
+	ADD [.R2--], .R4 	R2→ 0000FEEF + R4 → 0000FEEI  = que dios nos pille confesados 0001 FDDE
+	HALT 
