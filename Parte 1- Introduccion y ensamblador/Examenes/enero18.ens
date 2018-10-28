@@ -1,0 +1,72 @@
+Copiar_columna: ld r6, r30, 0 ; m
+				ld r7, r30, 4 ; n
+				sub r5, r0, 1 ; 0xFF
+				ld r22, r30, 8 ; Cadena
+				ld r23, r30, 12 ; Columna
+seguir: 		ld.bu r9, r22, r0 ; leer caracter
+				st.b r9,r23,r0 ; copiar carácter
+				subu r6,r6,1 ; decrementar contador
+				cmp r3,r9,r0
+				bb0 eq,r3, avanzar ; ¿ es NUL ?
+acabar: 		cmp r3, r6, r0 ; ¿último elemento?
+				bb1 eq, r3, retornar
+				addu r23, r23, r7 ; puntero a elemento
+				st.b r5, r23, r0 ; poner 0xFF
+				subu r6, r6, 1 ; decrementar contador
+				br acabar
+avanzar: 		addu r22, r22, 1 ; puntero a cadena
+				addu r23, r23, r7 ; puntero a elemento
+				br seguir
+retornar: 		jmp(r1)
+
+
+
+Normalizar_matriz: 
+				PUSH(r1) ; salvar dirección de retorno
+				PUSH(r31) ; salvar puntero de marco de pila antiguo
+				or r31, r30, r30 ; crear marco de pila
+				ld r6, r31, 8 ; m
+				ld r5, r31, 12 ; n
+				or r4, r5, r5
+				ld r20, r31, 16 ; Matriz
+				addu r7, r6, 8 ; m + 8
+				subu r30, r30, r7 ; espacio variables locales
+				salv_col: st r20, r31, -4 ; salvar puntero columnas
+				st r5, r31, -8 ; salvar contador columnas
+				or r25, r30, r30 ; puntero variable local
+				otro: ld.bu r9, r20, r0 ; leer elemento
+				st.b r9, r25, r0 ; almacenar
+				cmp r3, r9, r0 ; ¿ es NUL ?
+				bb1 eq, r3, columna
+				addu r20, r20, r4 ; siguiente elemento
+				addu r25, r25, 1 ; siguiente car´acter
+				br otro
+columna: 		or r25, r30, r30 ; puntero variable local
+				; pasar parametros a subrutina Rmv_chr
+				PUSH(r25) ; Srmv
+				PUSH(r25) ; Str
+				PUSH(r6) ; m
+				bsr Rmv_chr
+				addu r30, r30, 12 ; saltar parametros
+				; pasar parámetros a subrutina Copiar_columna
+				ld r20, r31, -4
+				PUSH(r20) ; Columna
+				or r25, r30, r30
+				PUSH(r25) ; Cadena
+				ld r7, r31, 12 ; n
+				PUSH(r7)
+				ld r6, r31, 8 ; m
+				PUSH(r6)
+				bsr Copiar_columna
+				addu r30, r30, 16 ; saltar par´ametros
+				ld r5, r31 -8 ; recuperar contador
+				sub r5, r5, 1 ; decrementar contador
+				cmp r3, r5, r0 ; ¿quedan columnas?
+				bb1 eq, r3, fin
+				ld r20, r31, -4 ; recuperar puntero
+				addu r20, r20, 1 ; incrementar puntero
+				br salv_col
+fin: 			or r30, r31, r31 ; destruir marco de pila
+				POP(r31)
+				POP(r1)
+				jmp(r1) ; retornar
