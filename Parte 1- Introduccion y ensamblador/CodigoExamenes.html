@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Codigo examenes comentado</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!--  -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="#">Estructura y Arquitectura</a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">HOME<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="ensamblador.html">Ensamblador</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Perifericos.html">Perifericos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="resumen/EstructuraTema2.pdf" download>Procesador</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="resumen/EstructuraTema3.pdf" download>Hardware</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<h3>Oct 2019 Se dice que una palabra es palındroma cuando resulta la misma leıda de izquierda a derecha que de derecha a izquierda (por ejemplo anilina).
+a) (30 %) Programe en ensamblador del 88110 la funcion pal(str) que recibe un <b>parametro en la pila que es una cadena de caracteres, pasada por direccion, acabada con el caracter NUL </b>. Dicha funcion devuelve en el registro <b>r29 el valor entero 0 si no es palındroma  o 1 si lo es</b>. Se supondra que existe la funcion de librerıa strlen(str) que devuelve en r29 la longitud de la cadena de caracteres str que finaliza con el caracter NUL (excluyendo dicho caracter). El parametro str se pasa por direccion en la pila. Para la realizacion de este ejercicio se llevara a cabo el tratamiento del Marco de Pila descrito en clase y se supondra que estan definidas todas las macros que se han explicado en la parte teorica de la asignatura; que las subrutinas llamantes dejan disponibles todos los registros excepto r1, r30 (SP) y r31 (FP); que la pila crece hacia direcciones de memoria decrecientes y el puntero de pila apunta a la ultima posicion ocupada.</h3>
+<p>
+	<br> <i style="color:green; text-align: center; size: 10px;"> Los pasos a seguir son 1º conocer el tamaño de la palabra para despues poner r20 y r21 apuntando al primer y ultimo digito, como tenemos strlen (str) lo primero sera llamarla </i>
+	<br>pal:     PUSH(r1) <i style="color:green; padding-left: 10px"> guardamos posicioon de retorno r1</i>
+	<br> ld r20,r30,4 <i style="color:green; padding-left: 10px">metemos en r20 la cadena de caracteres para meterlo pasarlo por strlen, recordemos que r30 es SP</i>
+	<br> PUSH(r20) <i style="color:green; padding-left: 10px"> guardamos r20 para pasarlos por strlen y llamamos a streln con bsr</i>
+	<br> bsr strlen
+	<br> <i style="color:red; padding-left: 10px"> fin de la llamda r29 contiene el tamaño</i>
+	<br> addu r30,r30,4 <i style="color:green; padding-left: 10px"> SP apunta a la ultima dir ocupada y decreciente por tanto para saltar el null subimos uno</i> 
+	<br> cmp r7,r29,r0 <i style="color:green; padding-left: 10px"> compara la longitud con 0 por si es pal</i>
+	<br> bb1 eq,r7,es_pal <i style="color:green; padding-left: 10px"> si lo es salta pal</i>
+	<br> subu r29,r29,1 <i style="color:green; padding-left: 10px"> resta el tamaño -1 para el desplazamiento que realizara mas adelante</i>
+	<br> ld r20,r30,4 <i style="color:green; padding-left: 10px"> ponemos r20 en la primera pos</i>
+	<br> addu r21,r20,r29 <i style="color:green; padding-left: 10px"> ponemos r21 en la ultima pos</i>
+	<br> or r29,r0,r0 <i style="color:green; padding-left: 10px"> r29 ya no lo necesitamos y lo ponemos a 0 </i>
+	<br> bucpal: cmp r7,r20,r21 <i style="color:green; padding-left: 10px"> comparamos el principio con el final</i>
+	<br> bb1 hs,r7,es_pal <i style="color:green; padding-left: 10px"> hs = r20 >= r21 por si termina el bucle </i>
+	<br>ld.bu r2,r20,r0 <i style="color:green; padding-left: 10px"> guarda r20 en r2 </i>
+	<br>ld.bu r3,r21,r0 <i style="color:green; padding-left: 10px"> guarda r21 en r3 </i>
+	<br>cmp r7,r2,r3 <i style="color:green; padding-left: 10px"> compara para ver si no son iguales y asi saltar a ne </i>
+	<br>bb1 ne,r7,no_pal 
+	<br>subu r21,r21,1 <i style="color:green; padding-left: 10px"> mueve las posiciones como ya sabemos r21 apunta al ultimo </i>
+	<br>addu r20,r20,1 
+	<br>br bucpal <i style="color:green; padding-left: 10px"> bucle para mirar elemento a elemento </i>
+	<br>es_pal: or r29,r0,1 <i style="color:green; padding-left: 10px"> r 29 es como el return , como lo pusimos a 0 en el or  </i>
+	<br>no_pal: POP(r1)
+	<br>jmp(r1) <i style="color:green; padding-left: 10px"> fin </i>
+</p>
+
+<h3>
+Programe en ensamblador del 88110 la funcion inspec(vpal,vchar) que recibe dos parametros en la pila (ambos por direccion):
+vpal: Es un vector de cadenas de caracteres. Cada elemento del vector contiene un puntero a una cadena de caracteres que finaliza con el caracter NUL. Si el puntero contiene la direccion NULL indica que el vector ha finalizado. Es un parametro de entrada. vchar: Es un vector de enteros de un byte. El elemento i-esimo del vector contendra 1 si el elemento i-esimo de vpal apunta a una palabra palındroma o 0 si no. Es un parametro de salida. La rutina llamante se encarga de reservar memoria suficiente para este parametro. La funcion devolvera en r29 el numero de elementos evaluados de vpal.
+</h3>
+<p>
+	<br> <i style="color:green; text-align: center; size: 10px;">Para evaluar el vector vpal es necesario recorrer lo con un puntero que ocupara una variable local en lapila (desplazamiento -8 a r31). Ademas es necesario devolver en r29 el numero de elementos evaluados, por lo que es necesario almacenarlo en otra variable local (desplazamiento -4 a r31). Se recorre el puntero vpal hasta que se encuentra NULL. El byte menos significativo del valor devuelto por pal en r29 se almacena en la posicion de vchar indicada por la cuenta almacenada en la var  </i>
+	<br>inspec: PUSH(r1) <i style="color:green; padding-left: 10px"> guardamos posicion de retorno r1</i>
+	<br> PUSH(r31) <i style="color:green; padding-left: 10px">guardamos marco de pila</i>
+	<br> or r31,r30,r30 <i style="color:green; padding-left: 10px"> se crea el marco de pila</i>
+	<br> subu r30,r30,8 <i style="color:green; padding-left: 10px"> se guardan dos palabras   </i>
+	<br> ld r20,r31,8 <i style="color:green; padding-left: 10px"> se carga vpal</i> 
+	<br> or r3,r0,r0 <i style="color:green; padding-left: 10px"> contador de elementos a 0</i>
+	<br> buc_ev: ld r21,r20,r0 <i style="color:green; padding-left: 10px"> elemento de vpal</i>
+	<br> cmp r7,r21,r0 <i style="color:green; padding-left: 10px"> null termina </i>
+	<br> bb1 eq,r7,fin_ev <i style="color:green; padding-left: 10px"> </i>
+	<br> st r20,r31,-8<i style="color:green; padding-left: 10px"> se almacena el puntero en el cursor </i>
+	<br> st r3,r31,-4 <i style="color:green; padding-left: 10px"> var locales en pila </i>
+	<br> PUSH(r21) <i style="color:green; padding-left: 10px"> comprueba si es pal</i>
+	<br> bsr pal <i style="color:green; padding-left: 10px"> la funcion anteriormente realizada </i>
+	<br>addu r30,r30,4  <i style="color:green; padding-left: 10px">  </i>
+	<br>ld r20,r31,-8 <i style="color:green; padding-left: 10px"> vchar </i>
+	<br>ld r3,r31,-4 <i style="color:green; padding-left: 10px"> se recuperan las las variables locales en pila </i>
+	<br>ld r21,r31,12
+	<br>st.b r29,r21,r3 <i style="color:green; padding-left: 10px"> se almacena en las pos de vchar  </i>
+	<br>addu r3,r3,1
+	<br>addu r20,r20,4 <i style="color:green; padding-left: 10px"> incrementamos y sigue el bucle </i>
+	<br>fin_ev: or r29, r3, r3 <i style="color:green; padding-left: 10px"> r 29 es como el return copia de r3 </i>
+	<br>or r30,r31,r31 <i style="color:green; padding-left: 10px"> fin marco de pila</i>
+	<br>POP(r31) POP(r1) <i style="color:green; padding-left: 10px"> fin </i>
+	<br>jmp(r1)
+</p>
+
+</body>
+</html>
