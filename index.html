@@ -37,6 +37,328 @@
   </div>
 </nav>
 
+<a type="button" class="btn btn-outline-primary" href="CodigoExamenes.html">Examenes Comentados</a>
+
+
+ <h1><center>Partes del computador</center> </h1> 
+ <br>
+ <img src="1.jpeg" alt="..." class="img-thumbnail">
+ <br>
+<p>
+	Como podemos ver el computador se compone principalmente de la CPU que se compone de una ALU "unidad aritmética lógica",La unidad de control y los registros.  Luego tenemos la MP "memoria principal" y el sistema de E/S.	
+</p>
+
+<h3><center>ALU</center></h3>
+<p>
+Realiza las operaciones tanto aritméticas como lógicas. Para facilitar caso con acarreo o similar contara con el RE. 
+<br>
+<br>RE Registro de estado (Registro transparente el usuario no lo puede tocar , dice si ha pasado algo en la última operación Over flow...Z, C...). (Propósito específico )
+
+<li>Registro - Registro (viene de los registros) más rápido</li>
+<li>Registro - Memoria (viene de la memoria )</li>
+<li>Memoria - Memoria  más lento</li>
+</p>
+
+<h5><center>U. CONTROL</center></h5> 
+<p>
+Extrae de MP la instrucción, la analiza
+Activa las señales, es el que reparte las órdenes. Siempre se mira si estas en el nivel adecuado ( super user (1), user (0) ) 
+
+<li>PC - Contador de programa : guarda la instrucción que vamos a ejecutar (Registro transparente)(Propósito específico). 
+</li>
+<li>RI - Registro instrucción : información sobre la instrucción, la primera parte me da los datos de la operación y el resto 
+</li>
+<li>DR - Registro de datos: Bus de datos
+</li>
+<li>AR - Registro de direcciones: Bus de direcciones 
+</li>
+</p>
+
+<h3><center>Registros</center></h3>
+
+<h5><center>BR: Banco de registro</center></h5>
+<h5><center> MEMORIA PRINCIPAL</center></h5>
+<p>
+	Conjunto de celdas,contiene los datos e instrucciones, señales : RD , WR , MEMRQ. Las operaciones de memoria tardan siempre más que los de CPU.  la memoria se separa en código datos ya que de primeras no hay una diferencia entre ellos, por eso es importante separar las instrucciones de los datos “00…….000001100000”. Puede ejecutar un dato pensando que es una instrucción. 
+Todas las instrucciones usan la memoria TODAS “fase de fetch”.
+</p>
+
+<img src="2.jpeg" alt="..." class="img-thumbnail">
+<br>
+<br><b>porque se usan registros</b>
+<p>
+porque son más rápidos y por ello al hacer un programa lo más eficiente, es guardar todos los datos que vayas a necesitar en registros y a partir de ahí realizar las operaciones que necesites. De este modo ahorras tiempo de lectura durante la ejecución de las instrucciones. 
+Latencia: desde que empieza hasta que acaba.
+</p>
+
+<h3><center>UNIDAD E/S</center></h3>
+<p>
+Instrucciones 
+Fases:
+ </p>
+<dt>1. Fetch</dt>
+<dt>2. Decodificación</dt>
+<dt>3. Ejecución</dt>
+<dt>4. Prepara siguiente instrucción</dt>
+<dt>5. Vuelta al 1</dt>
+<dt>6. Finalización </dt>
+
+<p>Las instrucciones manejan 3 tipos de datos, palabras (4 bytes), medias palabras (2 bytes) y Bytes. 
+</p>
+
+<h5><center>E/S Programada</center></h5>
+
+<li>Iniciar programa</li>
+<li>Comprobar estado</li>
+<li>Dato listo avanzamos, sino volvemos a comprobar estado</li>
+<li>enviamos dato </li>
+<li>fin de operación , si, terminamos, sino volvemos a comprobar estado </li>
+<p>
+Osea como el nombre dice los pasos por el bus de E/S estan programadas y siguen un procedimiento establecido. 
+</p>
+ 
+<h5><center>E/S Interrupciones</center></h5>
+<p>
+La CPU inicia la operación E/S, Ejecuta el programa , mientras el periferico cuando tenga los datos listos realizara la interrupción, en ese momento la CPU inicia la rutina de tratamiento de interrupción RTI realizandose la transferencia de los datos. La CPU tiene que salvar y restaurar el estado.  
+</p>
+
+<h5><center>E/S DMA</center></h5>
+<p>
+La CPU inicia la operación E/S,el periferico mientras recibe la transferencua de datos a MP, la CPU Ejecuta el programa, y cuando se termina la transferencia de datos a MP se realiza una INT y la CPU realiza la rutina de tratamiento de interrupción.   
+</p>
+
+<h3> <center>Tema 2 Programación en ensamblador</center> </h3>
+<p> Antes de empezar a programar <strong>!Pensar! </strong> </p>
+
+<h5> <center> Tipos de datos </center></h5>
+<p>
+<li>Palabra: Tamaño privilegiado del computador 4 bytes</li>
+<li>Medias Palabras 2 bytes</li>
+ <li>Bytes : cadena de carateres </li>
+</p> 
+<h5><center>Tipos de Direccionamiento</center></h5>
+<p>
+<li> A nivel de palabra: Cada palabra tiene una dirección </li>
+<li> A nivel de Bit: Cada byte tiene una dirección, dos palabras estan separadas por el tamaño en bytes de la palabra.</li>
+</p> 
+
+<h5><center> Alineamiento a palabra </center></h5>
+<p><li>Little-Endian - Byte menos significativo de una palabra en la dirección menos significativa. </li>
+		
+		<br><center>0x10 20 30 40 </center>
+		<br><center>1000 |	40 30 20 10</center>
+		<br><center>1004 |</center>
+<li>Big-Endian :Byte menos significativo de una palabra en la dirección más significativa.</li>
+
+		<br><center>0x10 20 30 40 </center>
+		<br><center>1000 |	10 20 30 40</center>
+		<br><center>1004 |</center>
+</p>
+<h5><center> Modos de Direccionamiento </center></h5>
+<p>
+El concepto de direccionamiento lo que hace es decir donde esta el objeto, de este modo tenemos inmediato que el objeto es en la propia instrucción. Directo , absoluto -> la instrucción con la dirección completa del objeto, 
+
+<li>Inmediato: El objeto está contenido en la propia instrucción. ADD .R1,#4
+<li> Relativo: Si la instrucción contiene la dirección del objeto de forma parcial. 
+<li> Absoluto a registro: El objeto del direccionamiento está contenido en un registro. La instrucción contiene el registro que contiene el objeto del direccionamiento. 
+	
+		<br><center>ADD .R4,.R5	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        R4<- R4+R5</center>
+		
+<li>Absoluto a memoria: El objeto del direccionamiento está contenido en una dirección de memoria. La instrucción contiene la dirección completa de memoria que contiene el objeto del direccionamiento.	
+	
+		<br><center>LD .R4,/1000	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	R4 <- M(1000)</center>
+				
+<Li> Relativo a registro base: El registro base se carga una dirección de memoria que contiene un conjunto de datos a los que se accede conociendo su posición relativa frente al comienzo de dicha zona: Estructuras de datos.
+ El rango de direcciones al que se puede acceder está limitado por el tamaño del desplazamiento.
+<br>
+		<br><center>DIR EFECTIVA = REGISTRO BASE(Registro de propósito específico o general que 
+		<br>contiene una dirección a memoria.) + DESPLAZAMIENTO (Valor entero con signo.)
+		</center>
+			<br><center>LD .R1,#4[.R7]	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		R1<-MEM(R7+4)</center>
+		
+<Li> Relativo Registro Base: Registro de propósito específico o general que contiene una dirección a memoria + Desplazamiento: Valor entero con signo.
+
+<Li> Relativo a PC: Es un direccionamiento relativo a registro base en el que el registro base es el PC. “saltos”
+
+			<br><center>BR $10 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		PC <- PC + 10</center>
+			
+<Li> Registro Índice: Es un direccionamiento relativo a registro base en el que el registro base se modifica. Incrementos y decrementos.
+
+		<br>Preincremento
+		<br><center>LD .R1,#8[++.R7] R7 <- R7+4 R1 <- MEM(R7+8)</center>
+		<br>Predecremento
+		<br><center>LD .R1,#8[--.R7] R7 <- R7-4 R1 <- MEM(R7+8)</center>
+		<br>Postincremento
+		<br><center>LD .R1,#8[.R7++] R1 <- MEM(R7+8) R7 <- R7+4</center>
+		<br>Postdecremento
+		<br><center>LD .R1,#8[.R7--] R1 <- MEM(R7+8) R7 <- R7-4 </center>
+
+<Li> Indirecto A Registro: La instrucción contiene la especificación del registro que contiene la dirección de memoria donde está almacenado el objeto.
+
+		<br><center>LD .R1,[.R4]		R1<-MEM(R4)</center>
+		
+<Li> Indirecto A Memoria: La instrucción contiene una dirección de memoria donde está contenida la dirección donde se almacena el objeto.
+
+		<br><center>LD .R1, [/1000]		R1<- MEM(MEM(1000))</center>
+</p>
+
+<h3><center>Juego de instrucciones</center></h3>
+<p><strong><center>IEEE</center></strong></p>
+<h5><center>Transferencia de datos</center></h5>
+<p>
+	<br>LD			LD .R2,#4[.R4]		R2 <- MEM(R4+4)
+	
+	<br>ST			ST .R2, #4[.R4]		MEM(R4+4) <- R2
+		
+	<br>MOVE		MOVE .R2,.R4 			R4 <- R2
+				<br>MOVE [.R2],[.R4]		MEM(R4) <- MEM(R2)
+				
+	<br>PUSH 		PUSH .R1 				SP <- SP-4;MEM(SP) <- R1
+	<br>POP			POP .R1 				R1 <- MEM(SP); SP <- SP + 4
+	<br>BR			BR /1000 PC <- 1000
+				<br>BR #4[.R4] PC <- R4+4
+				<br>BR $10 PC <- PC + 10  <strong> El PC apunta a la dirección de la siguiente instrucción </strong>
+				
+	<br>BZ /1000 			Si Z = 1 PC <- 1000
+	<br>BNC #4[.R4] 		Si C = 0 PC <- R4+4
+	<br>BP $10 			Si S = 0 PC <- PC + 10
+	<br>
+	<br>CALL /1000 R1 <- PC ; PC <- 1000
+	<br>RET PC <- R1		
+	<br>
+	<br>ADD .R1, .R2 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		R1 <- R1 + R2; mod. flags
+	<br>
+	<br>SUB .R1, .R2 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		R1 <- R1 – R2; mod. flags
+	<br>
+	<br>MUL .R1, .R2 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		R1 <- R1 · R2; mod. flags
+	<br>
+	<br>DIV .R1, .R2 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		R1 <- R1 / R2; mod. flags
+	<br>
+	<br>ADDC .R1, .R2 	R1 <- R1 + R2 + c; mod. flags
+	<br>
+	<br>SUBC .R1, .R2 	R1 <- R1 - R2 - c; mod. flags
+	<br>
+	<br>CMP .R1, .R2 R1 – R2 ; mod. flags	
+</p>
+Modelo Registro-Registro.
+<p>
+		<center>ADD .R1,.R2 			R1 <- R1 + R2; mod. Flags</center>
+		<br><center>ADD .R1,#4 			R1 <- R1 + 4; mod. Flags</center>
+</p>
+<li>Modelo Registro-Memoria.</li>
+<p>		
+		<center>ADD .R1,[.R2] R1 <- R1 + MEM(R2); mod. Flags</center>
+</p>
+<li> Modelo Memoria-Memoria.
+<p>	
+		<center>ADD [.R1],#4[.R2] MEM(R1) <- MEM(R1) + MEM(R2+4);</center>
+		<br><center>AND .R1,.R2 R1 <- R1 AND R2; mod. Flags</center>
+</p>	
+<li> Operaciones Lógicas
+<p>	
+		<center>XOR .R1,#4 R1 <- R1 XOR 4; mod. Flags</center>
+		<br><center>OR .R1,.R2 R1 <- R1 OR R2; mod. Flags</center>
+		<br><center>NOT .R1 R1 <- NOT R1; mod. Flags</center>
+	<br><center>Se utilizan para trabajar con máscaras</center>
+	
+		<br><center>AND .R1, #1 ; Si Z = 1 el número es par</center>
+</p>	
+<h3><center>Arquitectura 88110 </center></h3>
+<p>
+Usa 3 direcciones, modelo de ejecución registro-registro, palabras de 32 bits, ALU en complemento a 2.
+
+<li>R0 Cableado a 0
+<li>R1 Guarda dirección de retorno de subrutina accesibles por pares en operaciones de 64 bits.
+<li>R30 Puntero de pila
+<li>R31 Puntero de marco de pila
+<br>
+<br>Tiene direccionamiento :
+
+<li>Directo a registro: .Ri 
+		
+		<br><center>add r1, r2, r3 ; r1 <- r2 + r3</center>
+<li>Inmediato:
+
+		<br><center>add r1, r2, 0xFFF3</center>
+		<br><center>add r1, r2, -13</center>
+<li>Relativo a registro base: 
+
+		<br><center>ld r1, r4, 13 r1 <- MEM(r4+13)</center>
+		<br><center>st r1, r4, 13 r1 <- MEM(r4+13)</center>
+<li>Relativo a PC:
+
+		<br><center>ADD .7, .5</center>
+		<br><center>BR $ desp ; PC <- et1+desp</center>
+		<br><center>et1: LD .1, [.7]</center>
+		
+<li> Indirecto a registro:
+
+		<br><center>JMP (.R10) ; PC <- R10</center>
+</p>
+
+<h5> <center>Juego de instrucciones</center> </h5>
+<p>
+<li> Lógicas (or, and, xor, mask)
+<li>Aritméticas (add, sub, addu, subu, muls, mulu, divs, divu, cmp)
+<li> Bifurcaciones (bb0, bb1, br, bsr, jmp, jsr)
+<li>Transferencia (ld, st, ldcr, stcr, xmem)
+<li> Campos de bit (clr, set, ext, extu, mak, rot)
+v Coma flotante (fadd, fsub, fmul, fdiv, fcvt, flt, int, fcmp) 
+</p>
+
+<h5><center>Pseudoinstrucciones</center></h5>
+<p>
+<li>Org n: Indica que el código que le sigue se almacene en la posición de
+memoria n.
+<li> Res n: Indica que se reserven n bytes en memoria. N debe estar alineado a
+palabra.
+<li>Data a, b, c, ....: Inicializa las posiciones de memoria con los valores a, b y c.
+<li> Data “texto”: Inicializa las posiciones de memoria con la cadena de bytes
+texto. Asegura que la siguiente palabra en memoria está alineada (véase
+ejemplo).
+<li>Low(etiqueta o inmediato): Devuelve los 16 bits menos significativos de la
+dirección asociada a la etiqueta o dato inmediato.
+<li>High(etiqueta o inmediato): Devuelve los 16 bits más significativos de la
+dirección asociada a la etiqueta o dato inmediato.
+</p>
+
+<h5><center>Macros: </center> </h5>
+<p>
+Conjunto de sentencias a las que se le asigna un nombre y se les pasa un conjunto de argumentos.
+</p>
+<h5><center>Subrutinas</center></h5>
+<p>
+Parte de código cerrado, con especificación bien definida, que se puede utilizar
+desde varios puntos de un programa o diferentes programas. Una vez ejecutado el
+código de la subrutina se debe retornar “al lugar desde el que se llamó”.
+<li>Variables globales: se crean cuando arranca el programa y tiene validez
+durante toda la vida del mismo
+<li>Variables locales: Se crean cada vez que se activa la subrutina y se destruyen cuando se finaliza cada ejecución.
+</p>
+<h5><center>Marco de pila:</center></h5>
+<p> 
+Conjunto de datos privados a una subrutina que incluye, parámetros, dirección de retorno y variables locales. Se dedica un registro que apunta a una posición conocida del marco de pila: puntero de marco de pila (frame pointer o FP). En 88110 es r31.
+Pasos a seguir para subrutinas del 88110
+<dt>1. Activación de las subrutinas y creación del marco de pila
+<ul>
+	<li> 1.1 Almacenamiento de la dirección de retorno
+	<li>Guardar puntero de marco de pila antiguo
+	<li>Creamos el marco de pila
+	<li>Se establece el nuevo valor de fp
+	<li>Reservar espacio en la pila para variables locales y salvar registros
+	<li>Inicializar variables locales
+</ul>
+<dt>2. Código de subrutina
+<dt>3. Destrozar marco de pila y retorno de subrutina
+<ul>	
+	<li>Restaurar puntero del marco de pila antiguo
+	<li>Recuperar este
+	<li>Recuperar dirección de retorno
+	<li> Retornar
+</ul>
+	
+	
+</p>s
 
 
 
