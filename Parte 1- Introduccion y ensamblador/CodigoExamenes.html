@@ -97,5 +97,44 @@ vpal: Es un vector de cadenas de caracteres. Cada elemento del vector contiene u
 	<br>jmp(r1)
 </p>
 
+<h3>
+Se pide implementar en ensamblador del MC88110 una subrutina que realice el producto de dos matrices de numeros enteros positivos de simple precision (cada elemento es de 32 bits). Esta rutina multiplicara dos matrices, una matriz matA, de dimensiones MxN, por otra matriz matB, de dimensiones NxP, dejando el resultado en una matriz matR, de dimensiones MxP, en doble precision (cada elemento es de 64 bits). Para facilitar su implementacion, esta rutina se apoyara en otra que calculara cada elemento aij de la matriz matR individualmente, para ello multiplicara la fila i de matA por la columna j de matB, ya que el elemento en cuestion se obtiene como CALC ELEM(DirFil, SepFil, DirCol, SepCol, DimVec), que calcula el elemento aij de la matriz matR, como el producto de la fila y columna que se les pasa como parametros. Los para ́metros de entrada se pasan en la pila:
+
+<li>DirFil por direcci ́on, es la direcci ́on de comienzo de la fila i- ́esima de matA. </li>
+<li>SepFil por valor, es la separacio ́n expresada en palabras entre los distintos elementos de la fila de matA.</li>
+<li> DirCol por direcci ́on, es la direcci ́on de comienzo de la columna j- ́esima de matB.</li>
+<li>SepCol por valor, es la separacio ́n expresada en palabras entre los distintos elementos de la columna de matB.</li>
+<li> DimVec por valor, es la dimensi ́on de los dos vectores, tanto de la fila, como de la columna.</li>
+
+Para evitar desbordamientos, se realizara este producto en doble precision, es decir, aunque los elementos de matA y matB son de 32 bits, el producto se expresara en 64 bits. La subrutina devuelve en r28-r29 el elemento aij que ha calculado, en r28 la parte alta y en r29 la parte baja. No es necesario que esta subrutina implemente el marco de pila. Para realizar este producto se recomienda usar la instrucci ́on mulu.d rD, rS1, rS2, que realiza el producto de rS1 por rS2 y deja el resultado en doble precisio ́n en rD y rD+1, la parte baja en rD+1 y la parta alta en rD.
+</h3>
+<p>
+	<br> <i style="color:green; text-align: center; size: 10px;">Para evaluar el vector vpal es necesario recorrer lo con un puntero que ocupara una variable local en lapila (desplazamiento -8 a r31). Ademas es necesario devolver en r29 el numero de elementos evaluados, por lo que es necesario almacenarlo en otra variable local (desplazamiento -4 a r31). Se recorre el puntero vpal hasta que se encuentra NULL. El byte menos significativo del valor devuelto por pal en r29 se almacena en la posicion de vchar indicada por la cuenta almacenada en la var  </i>
+	<br>inspec: PUSH(r1) <i style="color:green; padding-left: 10px"> guardamos posicion de retorno r1</i>
+	<br> PUSH(r31) <i style="color:green; padding-left: 10px">guardamos marco de pila</i>
+	<br> or r31,r30,r30 <i style="color:green; padding-left: 10px"> se crea el marco de pila</i>
+	<br> subu r30,r30,8 <i style="color:green; padding-left: 10px"> se guardan dos palabras   </i>
+	<br> ld r20,r31,8 <i style="color:green; padding-left: 10px"> se carga vpal</i> 
+	<br> or r3,r0,r0 <i style="color:green; padding-left: 10px"> contador de elementos a 0</i>
+	<br> buc_ev: ld r21,r20,r0 <i style="color:green; padding-left: 10px"> elemento de vpal</i>
+	<br> cmp r7,r21,r0 <i style="color:green; padding-left: 10px"> null termina </i>
+	<br> bb1 eq,r7,fin_ev <i style="color:green; padding-left: 10px"> </i>
+	<br> st r20,r31,-8<i style="color:green; padding-left: 10px"> se almacena el puntero en el cursor </i>
+	<br> st r3,r31,-4 <i style="color:green; padding-left: 10px"> var locales en pila </i>
+	<br> PUSH(r21) <i style="color:green; padding-left: 10px"> comprueba si es pal</i>
+	<br> bsr pal <i style="color:green; padding-left: 10px"> la funcion anteriormente realizada </i>
+	<br>addu r30,r30,4  <i style="color:green; padding-left: 10px">  </i>
+	<br>ld r20,r31,-8 <i style="color:green; padding-left: 10px"> vchar </i>
+	<br>ld r3,r31,-4 <i style="color:green; padding-left: 10px"> se recuperan las las variables locales en pila </i>
+	<br>ld r21,r31,12
+	<br>st.b r29,r21,r3 <i style="color:green; padding-left: 10px"> se almacena en las pos de vchar  </i>
+	<br>addu r3,r3,1
+	<br>addu r20,r20,4 <i style="color:green; padding-left: 10px"> incrementamos y sigue el bucle </i>
+	<br>fin_ev: or r29, r3, r3 <i style="color:green; padding-left: 10px"> r 29 es como el return copia de r3 </i>
+	<br>or r30,r31,r31 <i style="color:green; padding-left: 10px"> fin marco de pila</i>
+	<br>POP(r31) POP(r1) <i style="color:green; padding-left: 10px"> fin </i>
+	<br>jmp(r1)
+</p>
+
 </body>
 </html>

@@ -68,5 +68,71 @@ vpal: Es un vector de cadenas de caracteres. Cada elemento del vector contiene u
 	<br>jmp(r1)
 </p>
 
+<h3>
+Se pide implementar en ensamblador del MC88110 una subrutina que realice el producto de dos matrices de numeros enteros positivos de simple precision (cada elemento es de 32 bits). Esta rutina multiplicara dos matrices, una matriz matA, de dimensiones MxN, por otra matriz matB, de dimensiones NxP, dejando el resultado en una matriz matR, de dimensiones MxP, en doble precision (cada elemento es de 64 bits). Para facilitar su implementacion, esta rutina se apoyara en otra que calculara cada elemento aij de la matriz matR individualmente, para ello multiplicara la fila i de matA por la columna j de matB, ya que el elemento en cuestion se obtiene como CALC ELEM(DirFil, SepFil, DirCol, SepCol, DimVec), que calcula el elemento aij de la matriz matR, como el producto de la fila y columna que se les pasa como parametros. Los para ́metros de entrada se pasan en la pila:
+
+<li>DirFil por direccion, es la direccion de comienzo de la fila i-esima de matA. </li>
+<li>SepFil por valor, es la separacion expresada en palabras entre los distintos elementos de la fila de matA.</li>
+<li> DirCol por direccion, es la direccion de comienzo de la columna j-esima de matB.</li>
+<li>SepCol por valor, es la separacion expresada en palabras entre los distintos elementos de la columna de matB.</li>
+<li> DimVec por valor, es la dimension de los dos vectores, tanto de la fila, como de la columna.</li>
+
+Para evitar desbordamientos, se realizara este producto en doble precision, es decir, aunque los elementos de matA y matB son de 32 bits, el producto se expresara en 64 bits. La subrutina devuelve en r28-r29 el elemento aij que ha calculado, en r28 la parte alta y en r29 la parte baja. No es necesario que esta subrutina implemente el marco de pila. Para realizar este producto se recomienda usar la instrucci ́on mulu.d rD, rS1, rS2, que realiza el producto de rS1 por rS2 y deja el resultado en doble precisio ́n en rD y rD+1, la parte baja en rD+1 y la parta alta en rD.
+</h3>
+<p>
+
+	<br> <i style="color:green; text-align: center; size: 10px;">  </i>
+	<br>CALC_ELEM: ld r10,r30,0 <i style="color:green; padding-left: 10px"> Dir fila Ai</i>
+	<br> ld r11,r30,8 <i style="color:green; padding-left: 10px">dir colu Bj</i>
+	<br> ld r15, r30,16 <i style="color:green; padding-left: 10px"> Dime vectores </i>
+	<br> ld r20,r30,4 <i style="color:green; padding-left: 10px"> inc Fil en palabras </i>
+	<br> ld r20,r30,12 <i style="color:green; padding-left: 10px"> inc col en palabras </i> 
+	<br> mak r20,r20,0<2> <i style="color:green; padding-left: 10px"> Fil in bytes</i>
+	<br> mak r21,r21, 0<2> <i style="color:green; padding-left: 10px"> col en bytes</i>
+	<br> add r28,r0,r0<i style="color:green; padding-left: 10px">  </i>
+	<br> add r29,r0,r0 <i style="color:green; padding-left: 10px"> </i>
+	<br> SIG_ELEM: ld r12,r10,0<i style="color:green; padding-left: 10px">  </i>
+	<br> ld r13,r11,0 <i style="color:green; padding-left: 10px">  </i>
+	<br> mulu.d r26,r12,r13  <i style="color:green; padding-left: 10px"> </i>
+	<br> addu.co r29,r29,r27 <i style="color:green; padding-left: 10px">  </i>
+	<br>addu.ci r28,r28,r26  <i style="color:green; padding-left: 10px">  </i>
+	<br>addu r10,r10,r20 <i style="color:green; padding-left: 10px">  </i>
+	<br>addu r11,r11,r21 <i style="color:green; padding-left: 10px">  </i>
+	<br>DBNZ (r15,SIG_ELEM)
+	<br>jmp (r1) <i style="color:green; padding-left: 10px"> se almacena en las pos de vchar  </i>
+</p>
+
+<h3>
+b) (60%)MULTMAT(DirMatA,DirMatB,DirMatR,M,N,P),quecalculaelproductodelasmatricesmatA y matB, cuyos elementos son nu ́meros enteros positivos de 32 bits, y deja el resultado en matR, cuyos elementos son nu ́meros enteros positivos de 64 bits. Los para ́metros de entrada se pasan en la pila:
+<dir>DirMatA por direccion, es la direccion de comienzo de la matriz A.</dir>
+<dir>DirMatB por direccion, es la direccion de comienzo de la matriz B.</dir>
+<dir>DirMatR por direccion, es la direccion de comienzo de la matriz R.</dir>
+<dir>M, N, P por valor, son las dimensiones de las matrices, MxN indica el tamano de matA y NxP indica el tamano de matB</dir>
+
+</h3>
+<p>
+		<br>PUSH     (r1)
+        <br>PUSH     (r31)
+        <br>add      r31, r30,  0
+        <br>sub      r30, r30, 20
+        <br>ld       r10, r31,  8
+        <br>ld       r11, r31, 12
+        <br>ld       r12, r31, 16
+        <br>ld       r13, r31, 28
+        <br>ld       r14, r31, 20
+   		<br>SIG:     ld       r20, r31, 20
+        <br>ld       r21, r31, 28
+        <br>ld       r22, r31, 24
+        <br>add      r23,  r0,  1
+		<br>st r10, r31, -20 
+		<br>st r11, r31, -16 
+		<br>st r12, r31, -12 
+		<br>st r14, r31, -8 
+		<br>st r13, r31, -4
+        <br>PUSH     (r22)
+        <br>PUSH     (r21)
+        <br>PUSH     (r11)
+</p>
+
 </body>
 </html>

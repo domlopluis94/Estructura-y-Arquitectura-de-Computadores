@@ -37,7 +37,50 @@
 </nav>
 
 
+<h1>Discos Duros</h1>
+<p>
+	<li>sectores / Pista = capacidad neta / </li>
+	<li>Velocidad de rotación = Velocidad de transferencia / (capacidad / pista)</li>
+	<li>capacidad/pista = 1/ rps = 60s/min</li>
+	<li>t acceso = t Busqueda + T latencia</li>
+	<li>t operacion = t acceso + t sector</li>
+	<li>DGW = capacidad/pista / 360º</li>
+	<li>DGL = capacidad/pista / 2 pi r</li>
 
+	<li>c = sector absoluto / sector/pista x superficie</li>
+	<li>resto = sector absoluto x mod((sector/pista)xSub)</li>
+	<li>H = Resto / (Sector/pista)</li>
+	<li>S = Resto + mood(sectores/pista)</li>
+	<li>Si son cilindros = t busqueda =0</li>
+	<li>T busqueda = (Cilindro_des - Cil_org) x Tcabezera + T establizacion</li>
+	<li>T busqueda / T vuelta = vueltas dadas </li>
+	<li>tlatencia(Sector buscado - Sec-reccorrido) x T sector</li>
+	<li>Stecotres_recorridos = tbusqueda/tsector</li>
+	<li></li>
 
+</p>
+
+<h1>Cinta Magnetica</h1>
+<p>
+	<li>DGL = V transferencia / V lineal </li>
+	<li>Cap_br = DGL x pistas x longitud de pista</li>
+	<li>T lectura = (n.bloques x Tam bloques )+ DGLxLong_IRG xCil / v transferencia</li>
+	<li>t operacion = t acc + T lectura + t parada</li>
+	<li>Nbloques = dist a grabar x pista / long_pista</li>
+</p>
+
+<h1>Pantallas</h1>
+<p>
+	<li>Tamaño de pantalla = Resolucion x Prof </li>
+	<li>W = Tamaño de pantalla x Frecuencia </li>
+	<li>Max_Frec = w/Tam_P</li>
+	<li>Half.duplex = bits transf x B / linea</li>
+</p>
+
+<h1>Transmisiones</h1>
+<p>
+	<li>D-Trans = Nºbits/s x tiempo </li>
+	<li>D_trans_total = D_transtam_p/</li>
+</p>
 </body>
 </html>
