@@ -35,44 +35,89 @@
     </ul>
   </div>
 </nav>
+<div style="padding-left: 6% ; padding-right: 6% ">
+<h1>Unidades de Medida</h1>
+<p>
+<div align="center"><img src="http://revista.jovenclub.cu/wp-content/uploads/2016/03/Tabla-2.jpg"></div>
+<div align="center"><img src="https://3.bp.blogspot.com/-o1JG8CS2ceU/ToiudKpH7eI/AAAAAAAAANs/t7NpSOcRxgY/s1600/unidades_infor.jpg"></div>
+<div align="center"><img src="https://wiki.brazilfw.com.br/lib/exe/fetch.php?media=wiki:bit-byte-01.png"></div>
+<div align="center"><img src="http://image.slidesharecdn.com/presentacionconceptosbasicoscomunicaciones-130306103755-phpapp02/95/presentacion-conceptos-basicos-comunicaciones-12-638.jpg?cb=1362566644"></div>
+<div align="center"><img src="https://image.slidesharecdn.com/benchmark-osdctw-2014-140411002848-phpapp02/95/understanding-android-benchmarks-15-638.jpg?cb=1397176443"></div>
+<div align="center"><img src="https://vignette.wikia.nocookie.net/fisicaingindustrial/images/3/35/Prefijos_SI.jpg/revision/latest?cb=20120219165651&path-prefix=es"></div>
 
+
+</p>
 
 <h1>Discos Duros</h1>
-<p>
-	<li>sectores / Pista = capacidad neta / </li>
-	<li>Velocidad de rotación = Velocidad de transferencia / (capacidad / pista)</li>
-	<li>capacidad/pista = 1/ rps = 60s/min</li>
-	<li>t acceso = t Busqueda + T latencia</li>
-	<li>t operacion = t acceso + t sector</li>
-	<li>DGW = capacidad/pista / 360º</li>
-	<li>DGL = capacidad/pista / 2 pi r</li>
+<div align="center"><img src="https://sites.google.com/site/informatica4oesoplsm/_/rsrc/1444290364739/el-s-o/el-disco-duro/DISCO%20DURO%20PARTES%20LOGICA.jpg"></div>
+<div align="center"><img src="https://tecnovortex.com/wp-content/uploads/2019/01/pista-cilindro-sector-hd.png"></div>
 
+<p>
+	Superficies con pistas(ojo puede tener solo una pista) que tiene sectores (bytes), no diran tambien el IRG,CRC
+	<br>
+	<li>Velocidad de rotación <i style="color:green;">(pistas/s -> x60  =  rpm)</i> = Velocidad de transferencia / capacidad bruta por pista <i style="color:green;">(Bytes/pista)</i></li>
+	<li>capacidad bruta por pista <i style="color:green;">(bytes/pista)</i> = nº sectrores por pista x Nº bytes por sector</li>
+	<li>DGW Densidad de grabacion angular <i style="color:green;">(bits/grado)</i> = capacidad bruta por pista / 360º</li>
+	<li>DGL Densidad de grabacion lineal <i style="color:green;">(bits/cm)</i>= capacidad bruta por pista / 2xpixradio</li>
+	<li>Nº Cilindros (Cilindros) = Capacidad Bruta / capacidad bruta por pista x Nº pistas/cilindro</li>
+	<li>Tlatencia <i style="color:green;">(s/pista)</i> = 1 / valocidad de rotacion en pistas/s </li>
+	<li>Tiempo medio de acceso a un sector = tposicionamiento + testabilizacion + tlatencia</li>
+	<li>Tposicionamiento = (Numero de cilindros / 2)x Timpor en mover la pista </li>
+	<br><i style="color:blue;"> Coordenadas geometricas CHS (c-> cilindros,h-> superficies, s -> sectores )</i>
+	<br> <i style="color:blue;">
+	<br> ejemplo (un fichero de 1 536 000 bytes desde el sector absoluto 96 004 800)
+	<br> nos dicen que los sectores por cilindro son = n pistas (8) x sectores/pista (1000) = 8000
+	<br> primero de entre todos los sectores de un cilindro
+	<br> 96004800 / 8000 = 12000
+	<br> 96004800 mod 8000 = 4800
+	<br> despues de entre todos los sectores de la pista a la que corresponde 
+	<br> 4800 / 1000 = 4
+	<br> 4800 mod 1000 = 800
+	<br> eso signinfa que empieza en el (12000,4,800)(c,h,s) </i>
+	<br>
 	<li>c = sector absoluto / sector/pista x superficie</li>
 	<li>resto = sector absoluto x mod((sector/pista)xSub)</li>
 	<li>H = Resto / (Sector/pista)</li>
 	<li>S = Resto + mood(sectores/pista)</li>
 	<li>Si son cilindros = t busqueda =0</li>
-	<li>T busqueda = (Cilindro_des - Cil_org) x Tcabezera + T establizacion</li>
-	<li>T busqueda / T vuelta = vueltas dadas </li>
-	<li>tlatencia(Sector buscado - Sec-reccorrido) x T sector</li>
-	<li>Stecotres_recorridos = tbusqueda/tsector</li>
-	<li></li>
-
+	<br> 
+	<br> <i style="color:blue;"> Para el caso anterior y para tener otro ejemplo ver donde termina , sabemos que estamos de inicio en el (1200,4,800) para llenarlo necesitamos 1536000 / (625"bytes en bruto"-113"bytes sincro...") bytes sector  = 3000 sectores , como falta 200 para la siguiente pista + 2 pistas de 1000 + 800 sectores = (12000,7,799) </i>
+	<br> 
+	<br> el tiempo en recorrer o en llegar hay que plantearlo siempre sabiando cuanto vamos a recorrer
+	<li> T busqueda = (Cilindro al que voy - Cilindro donde estoy) x Tcabezera + Testablizacion</li>
+	<li> T sector = Tiempo latencia / (sectores/pista)</li>
+	<li> Tsecotres_recorridos = tbusqueda/tsector</li>
+	<br><i style="color:blue;"> mientras mueves entre cilindros tienes que tener en cuenta el sector al que llegas para eso con los <b>sectores reccoridos + donde estabas en mod Nº sectores cilindro </b> no dice en que sector nos encontramos, por supuesto para girar sobre nostros mismos en caso de quedarnos cortos o pasarnos tendremos que esperar un tiempo de latencia  </i>
+	<li>tlatencia = (SectorDestino - Sec-Actual) x T sector</li>
+	<li>T acceso = Tposicionamiento + Tlantencia </li>
+	<li>T operacion = suma de todos los tiempos durante la operacion (llegar,recorrer) </li>
 </p>
 
 <h1>Cinta Magnetica</h1>
+
+<div align="center"><img src="https://portafolioelectronico.blogia.com/upload/20100715223043-cinta.jpg"></div>
 <p>
-	<li>DGL = V transferencia / V lineal </li>
-	<li>Cap_br = DGL x pistas x longitud de pista</li>
-	<li>T lectura = (n.bloques x Tam bloques )+ DGLxLong_IRG xCil / v transferencia</li>
-	<li>t operacion = t acc + T lectura + t parada</li>
-	<li>Nbloques = dist a grabar x pista / long_pista</li>
+	Bloques (Bytes de informacion)
+	<br>Claros IRG (metros normalmente en mm )
+	<br>
+	<li>Velocdiad de Transferencia <i style="color:green;">(B/s)</i> = DGL <i style="color:green;">(bits/mm)</i> x Velocidad_Lineal <i style="color:green;">(m/s)</i> = bits/s <i style="color:green;">(se suele necesitar en bytes)-> (bits/s) / 8 bits/bytes = Bytes/s</i> </li>
+	<li>Densidad de Grabacion Lineal DGL <i style="color:green;">(Bit/metros)</i> = Velocidad de transferencia / Velocidad lineal </li>
+	<br><i style="color:blue;"> Para trabajar el tema de la lectura y el tiempo de lectura tenemos que tener siempre en cuenta que entre bloque y bloque hay un irg. Si no sabemos cuanto ocupa un fichero en mm podemos calcular la longitud del bloque </i>
+	<br>
+	<li>Longitud de bloque <i style="color:green;">(metros)</i>= Bytes por bloque pasado a bits / DGL <i style="color:green;">(bits/m normalmente)</i></li>
+	<li>Entonces si esta apagado lo encedemos y al terminar lo paramos , de modod que el <b>tiempo de operacion</b> = tiempo acceso o encendido + Tiempo lectura + tiempo parada</li>
+	<li><b>Tiempo lectura de un fichero</b> sera  = (Nº Bloques x (Longitud del bloque / Velocidad Lineal)) + (Nº IRG x (Longitud IRG / Velocidad Lineal)) </li>
+	<li>Capacidad_bruta = DGL x pistas x longitud de pista <i style="color:green;"> longitud total de la cinta poor la densidad de grabacion lineal </i></li>
+	<li>Nº bloques = dist a grabar x pista / long_pista</li>
+	<br>Lo mas facil en cintas es tener dos conceptos claros, si tienes una de las dos velocidades tienes la otra puesto que el DGL te lo daran siempre o sino te daran las dos. Y tener en cuenta que si pasas tus tamaños de bytes a metros simplificas el ejercicio a tiempo = distancia / velocidad en donde solo tienes que tener cuidado de poner la distancia correcta mirando los IRG y los Bloques calcularlos correctamente.
 </p>
 
 <h1>Pantallas</h1>
 <p>
-	<li>Tamaño de pantalla = Resolucion x Prof </li>
-	<li>W = Tamaño de pantalla x Frecuencia </li>
+	<li>Memoria de pantalla o Tamaño de pantalla o Capacidad memoria <i style="color:green;">(Bytes/s)(si te piden en otra unidad recurda pasarlo al terminar la multiplicacion)</i>  = Resolucion <i style="color:green;">(pixeles)</i> x Profundidad <i style="color:green;">(Bytes/pixel)(recordar si esta en bits pasarlo a byte 1 bytes = 8 bits)</i></li>
+	<li>Ancho de banda W (B/s)  = Capacidad Memoria <i style="color:green;">(bytes)</i> x Frecuencia <i style="color:green;">(Hz)</i></li>
+	<li>Tiempo MAX de acceso <i style="color:green;">(s "tiempo")</i> = Longitud de palabra <i style="color:green;">(B)</i> / Ancho de banda <i style="color:green;">(B/s)</i></li>
+	<br><i style="color:red;"> para recordar , estas formulas se pueden utilizar para crear otras como por ejemplo dato el tiempo acceso obtener la longitud de palabra o el ancho de banda . Recordar tambien pasar las unidades correctamente (1bytes a mB es 1x10^6)(1 ns a s 1x10^-9) </i>
 	<li>Max_Frec = w/Tam_P</li>
 	<li>Half.duplex = bits transf x B / linea</li>
 </p>
@@ -82,5 +127,7 @@
 	<li>D-Trans = Nºbits/s x tiempo </li>
 	<li>D_trans_total = D_transtam_p/</li>
 </p>
+
+</div>
 </body>
 </html>
