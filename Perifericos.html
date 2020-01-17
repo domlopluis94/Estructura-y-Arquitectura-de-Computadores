@@ -56,6 +56,7 @@
 	Superficies con pistas(ojo puede tener solo una pista) que tiene sectores (bytes), no diran tambien el IRG,CRC
 	<br>
 	<li>Velocidad de rotación <i style="color:green;">(pistas/s -> x60  =  rpm)</i> = Velocidad de transferencia / capacidad bruta por pista <i style="color:green;">(Bytes/pista)</i></li>
+	<li>Tiempo rotacion = 60s/min / Velocidad de rotacion</li>
 	<li>capacidad bruta por pista <i style="color:green;">(bytes/pista)</i> = nº sectrores por pista x Nº bytes por sector</li>
 	<li>DGW Densidad de grabacion angular <i style="color:green;">(bits/grado)</i> = capacidad bruta por pista / 360º</li>
 	<li>DGL Densidad de grabacion lineal <i style="color:green;">(bits/cm)</i>= capacidad bruta por pista / 2xpixradio</li>
@@ -91,6 +92,7 @@
 	<li>tlatencia = (SectorDestino - Sec-Actual) x T sector</li>
 	<li>T acceso = Tposicionamiento + Tlantencia </li>
 	<li>T operacion = suma de todos los tiempos durante la operacion (llegar,recorrer) </li>
+	<li>Tiempo medio de acceso de cinta a disco = (cilindro-1/2)xTmovercabezal + T estabilizacion de cabeceras + (Trotacion/2)</li>
 </p>
 
 <h1>Cinta Magnetica</h1>
@@ -111,8 +113,6 @@
 	<li>Nº bloques = dist a grabar x pista / long_pista</li>
 	<br>Lo mas facil en cintas es tener dos conceptos claros, si tienes una de las dos velocidades tienes la otra puesto que el DGL te lo daran siempre o sino te daran las dos. Y tener en cuenta que si pasas tus tamaños de bytes a metros simplificas el ejercicio a tiempo = distancia / velocidad en donde solo tienes que tener cuidado de poner la distancia correcta mirando los IRG y los Bloques calcularlos correctamente.
 	<li>IRG a Bytes = IRG (metros) x DGL </li>
-	<li>Tiempo rotacion = 60s/min / Velocidad de rotacion</li>
-	<li>Tiempo medio de acceso de cinta a disco = (cilindro-1/2)xTmovercabezal + T estabilizacion de cabeceras + (Trotacion/2)</li>
 </p>
 
 <h1>Pantallas</h1>
