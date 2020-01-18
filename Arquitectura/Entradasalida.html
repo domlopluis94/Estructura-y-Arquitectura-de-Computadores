@@ -1,0 +1,115 @@
+<html>
+<head>
+    <title>Entrada & Salida </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!--  -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </head>
+    
+    	<style type= "text/css">
+		
+	h2 {
+		color:blue;
+		align:"center";
+		}
+		h5 {
+		color:dark grey;
+		align:"center";
+		}
+	p  {
+		margin:2%;
+		align:"justify";
+		}
+	li {
+		margin:2%;
+		align:"justify";
+		}
+	dt {
+		margin:2%;
+		align:"justify";
+		}
+	boton{
+		padding:25%;
+		border:3px;
+		background: blue;	
+		}
+		
+	</style>
+    
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Estructura y Arquitectura</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="../index.html">HOME<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../ensamblador.html">Ensamblador</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Perifericos.html">Perifericos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../resumen/EstructuraTema2.pdf" download>Procesador</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../resumen/EstructuraTema3.pdf" download>Hardware</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Entradasalida.html">Entrada Salida</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Memorias.html">Memorias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="ProcesadoresILP.html">Procesadores ILP</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Multiprocesador.html">Multiprocesadores</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+   
+    
+<div style="padding-left: 15 px ; padding-right: 15 px; padding-top: 10px">
+        <p>
+            Como cada periferico es distinto la forma de unificar la vision de HW es que la CPU solo dialoga con los modulos que estos si que son estandar.
+        </p>
+        <h2><center>Intrucciones de E/S</center></h2>
+        <p>
+            <br> Tiene dos lineas de control MEMRP (Memory Request) o AS (Address Strobe)
+            <li>OUT .R1,/Dir_Reg_Cont_Px; (Origen -> Destino)</li>
+            <li>IN .R1, /Dir_Reg_Dato_Px; (Destino /- origen )</li>    
+        </p>
+        <h2><center>Tecnicas de E/S</center></h2>
+        <p>
+            <li><b>Programada</b> -> Inicia (Prepara la operacion)-> Sincronizar (¿Pregunta por el siguiente dato?) ->Transferencia -> Finalizar 
+                <br> -> Todo lo realiza la CPU , la sincronizacion al estar programada se realiza mediante un bucle de espera. 
+            </li>
+            <li><b>Interrupciones</b> -> Inicia (Prepara la operacion)-> Transferencia -> Finalizar
+                <br> -> Por interrupciones la CPU no se encarga de la interrupcion , es el modulo quien avisa a la cpu para una nueva trasnferencia. (ahorra tiempo de CPU pero causa una sobrecarga inevitable, que se puede tratar aumentando el tamaño del registro de datos). 
+                <br> -> El proceso es el siguiente, tenemos un sucero asincrono que hace que se deje de ejcutar la instruccion a la que apunta el PC , para que se ejecute la rutina de servicio de interrupcion que es la que realiza la transferencia. Despues se reanuda la ejecucion por donde estaba. La unidad de control puede tener un biestable de mascara de interrupcion que pueda permitir que algunas sean atendidas. 
+                <br> hay instrucciones para habilitar EI y para inhibir DI.
+                <br>SRI Secuencia de reconocimiento de interrupcion : la realiza la unidad de control al final de cada instruccion si la linea de peticion esta activada. Las pautas son 1º salvar el pc y el re , inhibir interrupciones , cambiar a modod privilegiado , cargar en pc la DRTI nueva, e ir a fetch. 
+                <br> SRI o RTI Rutina de servicio de interrupcion : salva y restaura el estado. finaliza con un RETI. con el sri se evita la sincronizacion pero llevan otras operaciones para la transferencia.
+                <br> Prioridades: La señal de reconocimiento le ha de llegar al mas prioritario, hay diferentes modelos , gesto centralizado, gestor encadenado (daisy chain) (prioriza por la posición ocupada),hibrido. Prioridad 1 baja, 7 alta. solo añade priorizacion por el orden por el que vienen las interrupciones. Se da prioridad al dispositivo que mas interrupciones pide, la frecuencia depende de la velocidad de transferencia y del tamaño de registro de datos. 
+                <br> Es posible usar un buffer de registro de datos , de este modo solo se interrumpe cuando el buffer esta lleno. 
+            </li>
+            <li><b>DMA</b> -> Inicia (Prepara la operacion)-> Finalizar.
+                <br> La CPU inicia operaciones, el modulo por HW se encarga de la sincronizacion y transferencia y avisa cuando ha terminado mediante una interrupcion. Se ahorra mucho tiempo de CPU, puesto que solo tienes una interrupcion. 
+                <br> DMA mediante robo de ciclo, el módulo cuando hay datos listos solicita los buses con BUSRQ. La CPU lo cede al final del ciclo de bus en curso. Para ello se desconecta de los buses colocando sus salidas en alta impedancia. La CPU indica al modulo que puede usarlos con BUSACK. El modulo inicia el ciclo de bus para realizar las transferencias con memoria (Actualiza contador y Dir), Cuando acaba devueleve el bus desactivando BUSRQ. La CPU recupera los buses y desactiva BUSAK. Si no hay mas datos a transferir el modulo avisa a la CPU con una interrupcion.
+                <br> Operacion por DMA : 1 programar la operacion en el periferico .2º Cuando el periferico esta listo solicita los buses BUSREQ. 3º El periferico transfiere el dato desde M activando las ss de control y direccion pertinentes y usando el bus de datos. 4º Si el contador es desigual a 0 flataran datos por transferir. sino desactiva BUSREQ avisa a la CPU de que ha terminado la operacion de DMA y solicita la interrupcion.
+            </li>
+        </p>
+        
+        </div>
+    
+    </body>
+</html>
