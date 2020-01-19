@@ -45,6 +45,52 @@
         </ul>
       </div>
     </nav>
+<div style="padding-left: 10% ; padding-right: 10% ; padding-top: 5%">
+    <h1>Introduccion</h1>
+    <p> En memorias buscamos tener velocidad,capacidad -> pero a la hora de hablar de memoria con la cpu necesitamos que sea lo mas rapida posible, de esta manera la jerarquia de memorias sera 1º registros de la cpu, 2º memoria cache, 3º memoria principal y los discos.
+    <br> Funciona de la siguiente manera : la CPU solicita acceso a una posicion de memoria, se comprueba si esta en el nivel 1, si esta se da acceso, si no esta , se va mirando nivel a nivel si por ejemplo esta en el nivel 3 este la pasara al 2 y este al 1 hasta llegar a la cpu. 
+    <br> <b>Bloque</b> agrupacion de palabras de memoria consecutivas. 
+    </p>
+    <h1>Memoria Cache</h1>
+    <p>Memoria rapida y de pequeña capacidad, situada entre la CPU y la memoria principal
+    <li>Almacenamiento (lineas): donde se alberga los bloques que se suben del siguiente nivel</li>
+    <li>Directorio: Que bloque de MP está almacenado en cada línea </li>
+    <li>Controlador: Implementa todas las políticas y realiza el servicio a los fallos</li>
+    <br> Tiene diferentes decisiones de diseño -> Políticas de ubicacion, extraccion,reemplazo,escritura y tamaño. 
+    <li><b>Ubicacion</b> -> Directa :Cada bloque de Mp puede ubicarse solo en una línea predefinida de Mca (bloque i -> linea (i modulo L) siendo L nº lineas de la cache ) la pega que tiene es que puede producir fallos , Asociativa: Cada bloque de Mp puede ubicarse en cualquier línea de Mca , esta tiene mayor complejidad y coste , Asociativa por conjuntos: Cada bloque de Mp puede ubicarse en cualquier línea dentro de un conjunto predefinido de líneas de Mca (bloque i -> conjunto (i modulo C) siendo C = nº conjuntos de la cache). </li>
+        
+    <li><b>Politicas de extraccion</b>: Deciden cuando y que bloque se lleva a la cache, Bajo demanda: Se lleva a la caché el bloque que produce el fallo , Con anticipacion : Se llevan a la cache bloques que previsiblemente se van a necesitar en un futuro proximo.</li>
+        
+    <li><b>Politicas de reemplazo</b>: Deciden que bloque se “desaloja” de la cache para albergar al bloque que llega de Mp. FIFO (First in, First out) se cambia el mas antiguo de la Mca, LRU (Least recently used) Se reemplaza el bloque al que no se ha accedido durante un mayor periodo de tiempo </li>
+    <li><b>Politicas de escritura</b>: Deciden cuando se actualiza la informacion en el siguiente nivel.1º con acierto en el acceso : Write-through (escritura inmediata) Se escribe en la cache y en el siguiente nivel de la jerarquia . Copy-back (escritura aplazada) Se escribe solo en la cache. 2º Sin acierto : With allocation (con ubicacion) EL bloque se envía a caché, With no allocation : el bloque no se envia a la cache </li>
+    <br> Tipos de fallos en cache : 
+    <li>De primera referencia</li>
+    <li>de conflicto </li>
+    <li>de capacidad</li>
+    <br> Se puede medir el rendimiento por tanto en Nº de accesos a cierta Mca / Nº total de accesos y Tiempo medio de acceso: Tiempo medio transcurrido desde que la CPU realiza una petición al sistema de memoria hasta que puede continuar. Tef = Tmca + (1-HRmcha)x Tpenalizacion. Ademas podemos obtener el tiempo medio de ocupacion = Tefectivo + TactualizacionMCA
+    <br> Reducción del Tiempo de penalización -> 
+    <li>Lectura fuera de orden (out of order fetch) : Enviar la palabra que produjo el fallo a la cache y a la CPU. 2º En Lecturas Enviar el resto de las palabras del bloque a la cache</li>
+    <li>Cache multinivel: Jerarquia de memorias cache,Si fallo en McaL1 y acierto en McaL2 -> tasa de fallos local  (1-Hr)local = nºfallos en li / nºaccesos a Li . -> Tasa de fallos global (1-Hr)Global_Li = nºfallos en Li / nº total accesos al SM. -> Para L1 (1-Hr)local= (1-Hr)Global</li>
+    </p>
+    
+    <h1>Memoria Principal</h1>
+    <p>
+        Parametros -> Tacceso o latencia : tiempo en L/E . Ancho de banda : nº de bytes que se puede transmitir desde mp
+        <br>Organizacion entrelazada: Organizar la Mp como K módulos a los que se puede acceder simultaneamente (“entrelazado de orden K ”), K potencia de 2
+    </p>
+    <h1>Memoria Virtual</h1>
+    <p>Programas no limitados por la capacidad de la Mp disponible, Capacidad aparente >> Capacidad de la Mp. En entornos multiprogramacion -> Proteccion y compartición de información -> Reubicacion dinamica. Espacio de direcciones logico (EDL) y Espacio de direcciones fisico (EDF)
+        <li>Paginacion bloques de tamaño fijo: paginas -> Correspondencia entre paginas virtuales y marcos de pagina. Tamaño de paginas 2k bytes -> Implementacion de la traduccion: Tabla de páginas, una tabla por proceso + RBTP</li>
+        <li>Segmentacion bloques de tamaño variable: segmentos</li>
+        <li>Segmentacion paginada: segmentos, compuestos a su vez por paginas -> Ubicacion en Mp solo de las partes del segmento utilizadas, asignacion de bloques de Mp de tamaño fijo (paginas). Proteccion y comparticion a nivel de segmento</li>
+        
+        <br><b>TLB </b> (translation lookaside buffer): -> si acierto en TLB traducción finalizada -> si no acceso a las tablas de traducción en Mp y actualización de la TLB.
+    </p>
+    
+    
+    
+</div>
+    
     
     </body>
 </html>
