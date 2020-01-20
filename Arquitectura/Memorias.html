@@ -87,7 +87,38 @@
         <br><b>TLB </b> (translation lookaside buffer): -> si acierto en TLB traducción finalizada -> si no acceso a las tablas de traducción en Mp y actualización de la TLB.
     </p>
     
+            <h1>Examenes </h1>
     
+        <h2>Conceptos de examenes</h2>
+        <p>
+            <br> <b>Caso 1 :  </b> Para iniciar el acceso a la memoria cache se necesita identificar el bloque (en el caso de una cache directa) o el conjunto (si es una cache asociativa por conjuntos). Al tener memoria virtual se requiere disponer de los bits que identifican el bloque o el conjunto para poder iniciar el acceso a la cache. Esos bits se conocen antes de traducir la direccion virtual si y solo si forman parte del desplazamiento en la pagina, ya que en ese caso no necesitan traduccion. Utilizando paginas de 8kB (213 bytes) los 13 bits menos significativos de la direccion virtual no se traducen. Del mismo modo, con paginas de 16kB se tienen 14 bits, de 32 kB, 15 bits, y con paginas de 64 kB, son 16 los bits que no se traducen. Por otra parte, una memoria cache de 32kB (215 bytes) con ubicacion directa necesita 15 bits para identificar bloque de cache y byte dentro del bloque, independientemente del tamano del bloque. Si fuera asociativa por conjuntos de 2 necesitarıa 14 bits para esa misma funcion (en este caso identificar conjunto y byte en bloque) y, siendo asociativa por conjuntos de 4 lıneas, necesita 13 bits. Del mismo modo, en el caso de la cache de 64kB y asociativa por conjuntos de 4 se requieren 14 bits para identificar el conjunto y el byte dentro del bloque. En definitiva, se podrıa solapar el acceso con cualquiera de las combinaciones mencionadas de tamano de pagina y de tamano de cache excepto con la pagina mas pequena (8kB) en combinacion con la cache mas grande (64kB). En este caso se dispone de 13 bits y se necesitarıan 14. b) Segun lo indicado en el apartado anterior, podrıa solaparse la traduccion en TLB con el acceso a la cache directa utilizando paginas de 32kB con cache de 32kB o bien paginas de 64kB con cache de 32kB o de 64kB.
+            <br> <b>jerarquıa de memorias</b>: Son los principios de localidad de referencias: localidad espacial, referida a la propiedad por la que el procesador accede frecuentemente a direcciones cercanas a otra a la que ha accedido recientemente, y localidad temporal, referida a la propiedad por la que el procesador accede frecuentemente a las mismas direcciones a las ya ha accedido recientemente.
+        </p>
+    
+        <h2>Formulas y terminos</h2>
+        <p>
+        <br> Cache -> [ etiqueta    |   conjunto   |   byte en BLoque  ] ; capacidad de la cache / tam bloque = nº bloques ; el n bloques lo dividimos entre el numero de bloques por conjuntos = eso nos dice el numero de conjunto (con ese numero lo pasamos a exponente 2 para saber cuantos bit necesitamos para dirreccionar ese numero de conjuntos). Con el numero de bit para conjunto y los de un bloque podemos sacar la etiqueta restando al total. 
+            
+        
+        <br> La tasa de acierto global, indicada como HrG, a partir de la tasa de acierto observada en el primer y segundo nivel, Hr1 y Hr2 respectivamente, se expresa como: HrG = Hr1 + (1 − Hr1) × Hr2
+        <br> <b>WTWNA y Out of Order Fetch </b>
+        <br>acierto en TLB y fallo en memoria cache -> tacc = tTLB + tMca + tMP
+        <br>fallo de traducci´on en TLB, por lo que se realizan Nº(niveles) accesos extra a memoria principal -> tacc = tTLB + Nªniveles × tMP + tMca + tMP
+            
+        <br> <b>polıtica de lectura out of order fetch (OOF en cuanto se lee la primera palabra del bloque el procesador ya puede continuar) y politica de reemplazo LRU. CBWA </b>
+        <br> T minimo de lectura : El tiempo minimo de acceso a la informacion, tanto para lecturas como para escrituras, se da cuando hay acierto en la memoria cache: Tmin = TMca.
+        <br> El tiempo maximo de acceso en caso de lectura se da cuando se accede a datos, hay fallo en la memoria cache de datos, el bloque elegido para ser reemplazado esta modificado y, finalmente, hay que acceder a memoria principal para leer el nuevo bloque, aunque, por la politica de lectura OOF, en cuanto se haya leido la primera palabra el procesador podra continuar: Tmax lect = TMca + TMpbq + TMpr
+        <br> numero de bloques que ocupan las estructuras de datos: (Nº total elementos× Nº B/elemento) / Nº B/bloque . (Si ocupan un numero entero de bloques y estan ubicados en memoria principal consecutivamente, todas las estructuras de datos estan alineadas a bloque)
+        
+        <br> Fallos:
+        <br> Fallos de primera referencia : son los fallos cuando los elementos que buscamos no estan , en la mayoria de ejercicios no estan contenidos y el numero total de elementos es el numero total de fallos. 
+        <br> N accesos a memoria: Numero de elementos x el numero de veces que se accede a ese elemento 
+        <br> T total accesos : igual pero multiplicando por el tiempo segun es lectura o escritura hay que tener en cuenta los fallos y los elementos fallidos multiplicarlos por ese tiempo.
+        <br> t medio acceso = T total acceso / n accesos 
+        
+            
+            
+        </p>
     
 </div>
     

@@ -109,6 +109,44 @@
             </li>
         </p>
         
+    
+        <h1>Examenes </h1>
+    
+        <h2>Conceptos de examenes</h2>
+        <p>
+            <br> <b>Caso 1 dan un codigo y preguntan porque no es eficiente: </b> El problema es que esta rutina de tratamiento de interrupciones incluye un bucle de sincronizacion como si se tratase de una subrutina que realiza las operaciones mediante entrada/salida programada o directa. Si realiza esto ocupa el 100% de la CPU. En general hacer eso en un sistema por interrupciones no tiene sentido alguno. 
+            <br> <b>Caso 2 Detalla SRI: </b>FETCH: Si (Si INT ^ RE.MI = 0) entonces: [SP--]   PC;  [SP--]   RE;  RE.MI  - 1 (Inhibir interrupciones); RE.S  - 1 (Cambiar a modo privilegiado) ; PC -  Direccion de la rutina de tratamiento de interrupcion; ir a fetch ; Si no ; ir a fetch.
+            <br> <b>Caso 3 Buses en DMA: </b> BR (Bus Request): se usa para solicitar los robos de ciclo y acceder directamente a memoria. La CPU le notifica que tiene los buses mediante BA (Bus Acknowledge). MEMREQ (Memory Request): para marcar la temporizacion de los ciclos de acceso a memoria. READ y WRITE: para indicar si el acceso a memoria es para una lectura o una escritura.
+        </p>
+    
+        <h2>Formulas y terminos</h2>
+        <p>
+        <br> 1 MIPS(millones de instrucciones por segundo) ->  1x10^6 I en 1 S -> 1/1x10^6 = 1 us(microsegundos) una instruccion 
+        <br> <b> Un error comun: es importante fijarse que en mucho apartado te piden la solucion en Instrucciones , con la formula de arriba tienes el tiempo que ocupa una Instruccion</b>
+        <br> <b>T entre 2 interrupciones (tiempo)</b> =  registros de datos (en bit o bytes) / Velocidad de transferencia <b>(bytes/s)</b> ( recordar tienen que estar los dos en bytes o en bits 1 byte - 8 bits) (al final el tiempo entre una Int y otra es lo que tarde en llenarse los buses de datos)
+        <br> <b>T entre interrupcion (tiempo)</b> = SRI (Tiempo) + RTI (Tiempo)
+        <br> <b>(tiempo de CPU se ocupa para la lectura ... ) tcpu</b> = tinicio + Nºinterrupciones × tinterrupciones + tfin (el tiempo de inicio o de fin lo pueden dar en Ins y lo tienes que pasar a unidades de tiempo)
+        <br> Nº Interrupciones = (Tamaño de lo que quieres leer)(bytes o bit) / registros de datos (bytes o bit)
+        <br> T interrupciones = SRI + RTI (en tiempo no en Instrucciones)
+        <br> mayor prioridad quien tenga menor T entre 2 interrupciones (tiempo)
+        <br> Toperacion = tinicio + tacceso () + ttransferencia (tamaño archiv / tam registro de datos) + t ultima interrupcion (SRI + RTI + Tfin)
+        
+        <br> <b>DMA: </b>
+        <br><b>T operacion = Tinicio + Ttransferencia + Tultimo robo de ciclo + TRTI</b>
+        <br>Tultimo robo de ciclo =  protocolo de concesion y liberacion de los buses + ciclo de acceso a memoria
+        <br>Ttransferencia = Tamaño del bloque a transferir / Velocidad de transferencia 
+        <br> T RTI = SRI + Tfin
+        <br>T cpu = Tinicio + Nº robos de ciclo × T robo de ciclo + T interrupcion(=T RTI)
+        <br> Nº Robos de ciclo = Tamaño del bloque / Tamaño registro de datos 
+        <br>% CPU = TCPU / Toperacion x 100
+            
+            
+        <br> <b>Totales: </b>    
+        <br> Cuando trate tiempos totales hay que tener en cuenta que el dominante va a ocupar un tiempo en el cual el segundo esta trabajando. Pero cuando hablamos de tiempo de CPU es diferente puesto que son tiempos indiferentes y por cada dsipositivo tendremos que tener en cuenta sus tiempos de cpu. 
+        <br> por ejmplo si tenemos dos componentes un disco y una tarjeta de red y subimos un archvo a drive -> T total = nº operacionesdeldisco x Toperaciondeldisco + t laultima operacion de la tarjeta de red. Pero si hablamos de tiempo de cpu cambia = nº operacionesdeldisco x Tcpudeldisco + Nºopdeed x t cputarjeta de red. y el %cpu libre seria = (Ttotal - Ttotal_cpu / Ttotal) x 100
+        </p>
+    
+        
         </div>
     
     </body>
