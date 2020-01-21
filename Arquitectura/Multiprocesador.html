@@ -46,5 +46,26 @@
       </div>
     </nav>
     
+<div style="padding-left: 10% ; padding-right: 10% ; padding-top: 5%">
+
+    <p>
+    <br><b>Speedup</b> = Toriginal/Tnuevo
+    <br><b>Eficiencia</b> = Speedup(P)/Pcores
+    <br><b>MIND</b> Conjunto de procesadores que ejecutan simultaneamente flujos de instrucciones diferentes con conjuntos de datos diferentes.
+    <br><b>Clusters</b> Conjunto de computadores autonomos, interconectados, que trabajan conjuntamente como un unico recurso de computo
+    <br><b>Grid</b> Red de computadores, distribuidos geograficamente, con software adecuado para compartir todos los recursos computacionales existentes en diferentes lugares del planeta
+    <br><b>Multiprocesadores (de memoria compartida)</b>Cualquier procesador puede acceder a cualquier posición de memoria mediante instrucciones ld/st
+    <br><b>Buses</b> Comunicar los distintos componentes, Fases transaccion: Arbitraje (asignacion propiedad), direccionamiento esclavo, transferencia, errores
+    <br><b>Coherencia de caches</b> Justificación del uso de cachés privadas: reducen el tiempo medio de acceso (uso “monoprocesador”) reducen la demanda de ancho de banda en la red de interconexión. Multiprocesadores Existencia de datos compartidos modificables
+    <br><b>Invalidacion</b> Mas fallos de cache por las invalidaciones (¡nuevo tipo de fallo!), Al crecer el tamaño de bloque, la invalidacion puede generar mas fallos de cache debidos a la falsa comparticion
+    <br><b>Actualizacion</b> Mas trafico en la red por las actualizaciones. A mayor tamaño de cache se genera mas trafico ya que hay mas bloques y permanecen mas tiempo en cache
+    <br><b>Protocolo MSI (copy-back con invalidacion)</b>Modified: el bloque ha sido modificado por su CPU y es la única copia valida en el sistema (incluida la Mp). Shared: puede haber más de una copia del bloque en el sistema y todas ellas tienen el mismo valor. Invalid: el bloque esta invalidado
+    <br><b>MESI</b>E (Exclusive): el bloque de caché es el mismo que la copia en Mp y no está presente en ninguna otra caché.
+    <br><b></b>
+    <br><b></b>
+    </p>
+    
+    
+    </div>    
     </body>
 </html>
