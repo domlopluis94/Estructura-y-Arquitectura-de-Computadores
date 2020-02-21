@@ -12,11 +12,11 @@
 		
 	h2 {
 		color:blue;
-		align:"center";
+		align-self:"center";
 		}
 		h5 {
 		color:dark grey;
-		align:"center";
+		align-self:"center";
 		}
 	p  {
 		margin:2%;
@@ -78,7 +78,7 @@
     </nav>
    
     
-<div style="padding-left: 15 px ; padding-right: 15 px; padding-top: 10px">
+<div style="padding-left: 10% ; padding-right: 10%; padding-top: 10px">
         <p>
             Como cada periferico es distinto la forma de unificar la vision de HW es que la CPU solo dialoga con los modulos que estos si que son estandar.
         </p>
@@ -120,33 +120,64 @@
         </p>
     
         <h2>Formulas y terminos</h2>
+
+        <div style="padding-left: 15%;padding-top: 5%;">
+        <div class="card border-success mb-3" style=" max-width: 70%;">
+          <div class="card-header">Interrupciones</div>
+          <div class="card-body ">
+            <h5 class="card-title">Principales</h5>
+            <p class="card-text">
+              <br> <b>T<sub>operación</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + T<sub>acceso</sub><i style="color:blue;">(Tiempo)</i> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archiv / tam registro de datos)</i><i style="color:blue;">(Tiempo)</i> + T <sub>Ultima Interrupción</sub> <i style="color: green;">(SRI + RTI + Tfin)</i><i style="color:blue;">(Tiempo)</i>
+              <br> <b>T<sub>cpu</sub></b> (tiempo de CPU se ocupa para la lectura ... )  = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + Nºinterrupciones <i style="color: green;"> (Tamaño del bloque a transferir / tamaño de nuestro registro de datos (buffer the interrupcion) <i style="color: blue;">(puede estar en Bytes o bits 1B = 8bits)</i></i> × T <sub>interrupciones</sub><i style="color: green;">(SRI + RTI)</i> + T<sub>fin</sub> <i style="color: green;">(el tiempo de inicio o de fin lo pueden dar en Ins y lo tienes que pasar a unidades de tiempo)</i>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div style="padding-left: 15%;">
+          <div class="card border-success mb-3" style="max-width: 70%;">
+            <div class="card-header">DMA</div>
+            <div class="card-body">
+              <h5 class="card-title">Principales</h5>
+              <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / tam registro de datos)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
+            <br><b>T<sub>cpu</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + Nº robos de ciclo <i style="color: green;">(Bloque a transferir / Tamaño de mis buffer de datos "nº registros * Tam registros") </i> × T <sub>DMA</sub><i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
+            <br>%CPU = (T<sub>CPU</sub> / T<sub>operacion</sub>) x 100
+            </div>
+          </div>
+        </div>
         <p>
         <br> 1 MIPS(millones de instrucciones por segundo) ->  1x10^6 I en 1 S -> 1/1x10^6 = 1 us(microsegundos) una instruccion 
         <br> <b> Un error comun: es importante fijarse que en mucho apartado te piden la solucion en Instrucciones , con la formula de arriba tienes el tiempo que ocupa una Instruccion</b>
-        <br> <b>T entre 2 interrupciones (tiempo)</b> =  registros de datos (en bit o bytes) / Velocidad de transferencia <b>(bytes/s)</b> ( recordar tienen que estar los dos en bytes o en bits 1 byte - 8 bits) (al final el tiempo entre una Int y otra es lo que tarde en llenarse los buses de datos)
-        <br> <b>T entre interrupcion (tiempo)</b> = SRI (Tiempo) + RTI (Tiempo)
-        <br> <b>(tiempo de CPU se ocupa para la lectura ... ) tcpu</b> = tinicio + Nºinterrupciones × tinterrupciones + tfin (el tiempo de inicio o de fin lo pueden dar en Ins y lo tienes que pasar a unidades de tiempo)
-        <br> Nº Interrupciones = (Tamaño de lo que quieres leer)(bytes o bit) / registros de datos (bytes o bit)
-        <br> T interrupciones = SRI + RTI (en tiempo no en Instrucciones)
-        <br> mayor prioridad quien tenga menor T entre 2 interrupciones (tiempo)
-        <br> Toperacion = tinicio + tacceso () + ttransferencia (tamaño archiv / tam registro de datos) + t ultima interrupcion (SRI + RTI + Tfin)
-        
+        <br>
+        <br> <b>Interrupciones: </b>
+        <br> <b>T entre 2 interrupciones (T <sub>Int</sub>)</b> =  registros de datos <i style="color:blue;">(en bit o bytes)</i> / Velocidad de transferencia <i style="color: blue;">(bytes/s)</i> <i style="color: green;">( recordar tienen que estar los dos en bytes o en bits 1 byte - 8 bits) (al final el tiempo entre una Int y otra es lo que tarde en llenarse los buses de datos)</i>
+        <br> <b>T tratamiento de una interrupcion (T<sub>Int</sub>)</b> = SRI <i style="color:blue;">(Tiempo)</i> + RTI <i style="color:blue;">(Tiempo)</i>
+        <br> Nº Interrupciones = (Tamaño de lo que quieres leer)<i style="color:blue;">(bytes o bit)</i> / registros de datos <i style="color:blue;">(bytes o bit)</i>
+        <br> T interrupciones = SRI + RTI (en tiempo no en Instrucciones)<i style="color:blue;">(Tiempo)</i>
+        <br> mayor prioridad quien tenga menor T entre 2 interrupciones <i style="color:blue;">(Tiempo)</i>
+        <br>
+        <br> <b>T<sub>operación</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + T<sub>acceso</sub><i style="color:blue;">(Tiempo)</i> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archiv / tam registro de datos)</i><i style="color:blue;">(Tiempo)</i> + T <sub>Ultima Interrupción</sub> <i style="color: green;">(SRI + RTI + Tfin)</i><i style="color:blue;">(Tiempo)</i>
+        <br> <b>T<sub>cpu</sub></b> (tiempo de CPU se ocupa para la lectura ... )  = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + Nºinterrupciones <i style="color: green;"> (Tamaño del bloque a transferir / tamaño de nuestro registro de datos (buffer the interrupcion) <i style="color: blue;">(puede estar en Bytes o bits 1B = 8bits)</i></i> × T <sub>interrupciones</sub><i style="color: green;">(SRI + RTI)</i> + T<sub>fin</sub> <i style="color: green;">(el tiempo de inicio o de fin lo pueden dar en Ins y lo tienes que pasar a unidades de tiempo)</i>
+        <br>
         <br> <b>DMA: </b>
-        <br><b>T operacion = Tinicio + Ttransferencia + Tultimo robo de ciclo + TRTI</b>
-        <br>Tultimo robo de ciclo =  protocolo de concesion y liberacion de los buses + ciclo de acceso a memoria
-        <br>Ttransferencia = Tamaño del bloque a transferir / Velocidad de transferencia 
-        <br> T RTI = SRI + Tfin
-        <br>T cpu = Tinicio + Nº robos de ciclo × T robo de ciclo + T interrupcion(=T RTI)
+        
+        <br>T <sub>ultimo robo de ciclo</sub> <i style="color:blue;">(Tiempo)</i> =  protocolo de concesion y liberacion de los buses + ciclo de acceso a memoria
+        <br>T<sub>transferencia</sub> <i style="color:blue;">(Tiempo)</i> = Tamaño del bloque a transferir / Velocidad de transferencia 
+        <br> T RTI <i style="color:blue;">(Tiempo)</i> = SRI + Tfin
         <br> Nº Robos de ciclo = Tamaño del bloque / Tamaño registro de datos 
-        <br>% CPU = TCPU / Toperacion x 100
-            
-            
+        <br>
+        <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / tam registro de datos)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
+        <br><b>T<sub>cpu</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + Nº robos de ciclo <i style="color: green;">(Bloque a transferir / Tamaño de mis buffer de datos "nº registros * Tam registros") </i> × T <sub>DMA</sub><i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
+        <br>%CPU = (T<sub>CPU</sub> / T<sub>operacion</sub>) x 100
+        <br> 
         <br> <b>Totales: </b>    
         <br> Cuando trate tiempos totales hay que tener en cuenta que el dominante va a ocupar un tiempo en el cual el segundo esta trabajando. Pero cuando hablamos de tiempo de CPU es diferente puesto que son tiempos indiferentes y por cada dsipositivo tendremos que tener en cuenta sus tiempos de cpu. 
         <br> por ejmplo si tenemos dos componentes un disco y una tarjeta de red y subimos un archvo a drive -> T total = nº operacionesdeldisco x Toperaciondeldisco + t laultima operacion de la tarjeta de red. Pero si hablamos de tiempo de cpu cambia = nº operacionesdeldisco x Tcpudeldisco + Nºopdeed x t cputarjeta de red. y el %cpu libre seria = (Ttotal - Ttotal_cpu / Ttotal) x 100
         </p>
-    
+
+        <h2><center>TIPS</center></h2>
         
+    
+        <h2><center>Examenes</center></h2>
         </div>
     
     </body>
