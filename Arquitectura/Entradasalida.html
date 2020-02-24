@@ -129,7 +129,7 @@
           </div>
         </div>
         <p>
-        <br> 1 MIPS(millones de instrucciones por segundo) ->  1x10^6 I en 1 S -> 1/1x10^6 = 1 us(microsegundos) una instruccion 
+        <br> 1 MIPS(millones de instrucciones por segundo) ->  1x10^6 I en 1 S -> 1/1x10^6 = 1 us(microsegundos) una instrucción 
         <br> <b> Un error comun: es importante fijarse que en mucho apartado te piden la solucion en Instrucciones , con la formula de arriba tienes el tiempo que ocupa una Instruccion</b>
         <br>
         <br> <b>Interrupciones: </b>
@@ -151,7 +151,7 @@
         <br>
         <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / tam registro de datos)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
         <br><b>T<sub>cpu</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + Nº robos de ciclo <i style="color: green;">(Bloque a transferir / Tamaño de mis buffer de datos "nº registros * Tam registros") </i> × T <sub>DMA</sub><i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
-        <br>%CPU = (T<sub>CPU</sub> / T<sub>operacion</sub>) x 100
+        <br><b>%CPU</b> = (T<sub>CPU</sub> / T<sub>operacion</sub>) x 100
         <br> 
         <br> <b>Totales: </b>    
         <br> Cuando trate tiempos totales hay que tener en cuenta que el dominante va a ocupar un tiempo en el cual el segundo esta trabajando. Pero cuando hablamos de tiempo de CPU es diferente puesto que son tiempos indiferentes y por cada dsipositivo tendremos que tener en cuenta sus tiempos de cpu. 
@@ -159,7 +159,19 @@
         </p>
 
         <h2><center>TIPS</center></h2>
-        
+        <li> Calcular los MIPS que necesita un dispositivo : 
+          <br>1º calcular la frecuencia de interrupcion <i style="color:blue;">(Hz)</i>= Velocidad <sub>trasnferencia</sub> / Registro de datos. 
+          <br>2º Cada interrupcion implica tratar esta mismas por tanto el siguiente paso es sacar el Tiempo de interrupcion y pasarlo a Instrucciones.
+          <br>3º La Capacidad del dispositivo sera <i style="color:blue;">(MIPS)</i> = frecuencia de interrupcion en <i style="color:blue;">(Hz)</i>Hz x Intrucciones por cada interrupcion <i style="color:blue;">(Instrucciones)</i>.
+        </li>
+        <li> Calcular T <sub>operacion</sub> y T<sub>Cpu</sub> en leer o escribir un fichero que pasa por mas de un periferico: 
+          <br>1º lo primero es sacar los tiempos de cpu y de operacion para el tamaño del buffer de interrupcion de cada dispositivo 
+          <br>2º Nº disp1 = lo siguiente por tanto sera dividir el tamaño del fichero entre el tamaño de los buffers de interrupcion, con el fin de conocer cuantas veces se llena el buffer
+          <br>3º Nº disp2 = el resultado anterior nos dice el numero de veces que se ejecuta cada operacion, ahora el tema es ver si en el caso de el tiempo de operacion este se solapa con el de otro periferico, esto ocurre cuando por ejemplo un disco duro manda los bloques a un ethernet que lo va enviando, mientras el disco lee un segundo bloque ethernet esta enviando el 1 por tanto ese tiempo se solapa y al calcular el tiempo total de operacion no saldria reflejado en el Nº que multiplica el T<sub>operación de ethe</sub>
+          <br>4º T<sub>op Total</sub> = Nº disp1 + T<sub>op disp1</sub> + Nº disp2 (mirar si hay solapamiento y restar a Nº disp ) + T<sub>op disp2</sub> 
+          <br>5º T<sub>cpu Total</sub> = Nº disp1 + T<sub>cpu disp1</sub> + Nº disp2 (no hay solapamiento la cpu siempre tiene que tratar los dos disp) + T<sub>cpu disp2</sub> 
+          <br>6º %CPU libre =  ( T<sub>op Total</sub> - T<sub>cpu Total</sub> / T<sub>op Total</sub> ) x 100
+        </li>
     
         <h2><center>Examenes</center></h2>
         </div>
