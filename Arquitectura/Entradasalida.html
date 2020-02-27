@@ -111,7 +111,7 @@
           <div class="card-body ">
             <h5 class="card-title">Principales</h5>
             <p class="card-text">
-              <br> <b>T<sub>operación</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + T<sub>acceso</sub><i style="color:blue;">(Tiempo)</i> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archiv / tam registro de datos)</i><i style="color:blue;">(Tiempo)</i> + T <sub>Ultima Interrupción</sub> <i style="color: green;">(SRI + RTI + Tfin)</i><i style="color:blue;">(Tiempo)</i>
+              <br> <b>T<sub>operación</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + T<sub>acceso</sub><i style="color:blue;">(Tiempo)</i> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archiv / V<sub>transferencia</sub>)</i><i style="color:blue;">(Tiempo)</i> + T <sub>Ultima Interrupción</sub> <i style="color: green;">(SRI + RTI + Tfin)</i><i style="color:blue;">(Tiempo)</i>
               <br> <b>T<sub>cpu</sub></b> (tiempo de CPU se ocupa para la lectura ... )  = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + Nºinterrupciones <i style="color: green;"> (Tamaño del bloque a transferir / tamaño de nuestro registro de datos (buffer the interrupcion) <i style="color: blue;">(puede estar en Bytes o bits 1B = 8bits)</i></i> × T <sub>interrupciones</sub><i style="color: green;">(SRI + RTI)</i> + T<sub>fin</sub> <i style="color: green;">(el tiempo de inicio o de fin lo pueden dar en Ins y lo tienes que pasar a unidades de tiempo)</i>
             </p>
           </div>
@@ -122,7 +122,7 @@
             <div class="card-header">DMA</div>
             <div class="card-body">
               <h5 class="card-title">Principales</h5>
-              <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / tam registro de datos)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
+              <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / V <sub>Transferencia</sub>)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
             <br><b>T<sub>cpu</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + Nº robos de ciclo<sub>DMA</sub> <i style="color: green;">(Bloque a transferir / Tamaño de mis buffer de datos "nº registros * Tam registros") </i> × T <sub>DMA</sub><i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) o (T<sub>Concesion/liberacion</sub> + T<sub>MP</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
             <br>%CPU = (T<sub>CPU</sub> / T<sub>operacion</sub>) x 100
             </div>
@@ -139,7 +139,7 @@
         <br> T interrupciones = SRI + RTI (en tiempo no en Instrucciones)<i style="color:blue;">(Tiempo)</i>
         <br> mayor prioridad quien tenga menor T entre 2 interrupciones <i style="color:blue;">(Tiempo)</i>
         <br>
-        <br> <b>T<sub>operación</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + T<sub>acceso</sub><i style="color:blue;">(Tiempo)</i> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archiv / tam registro de datos)</i><i style="color:blue;">(Tiempo)</i> + T <sub>Ultima Interrupción</sub> <i style="color: green;">(SRI + RTI + Tfin)</i><i style="color:blue;">(Tiempo)</i>
+        <br> <b>T<sub>operación</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + T<sub>acceso</sub><i style="color:blue;">(Tiempo)</i> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archiv / V <sub>Transferencia</sub>)</i><i style="color:blue;">(Tiempo)</i> + T <sub>Ultima Interrupción</sub> <i style="color: green;">(SRI + RTI + Tfin)</i><i style="color:blue;">(Tiempo)</i>
         <br> <b>T<sub>cpu</sub></b> (tiempo de CPU se ocupa para la lectura ... )  = T<sub>inicio</sub> <i style="color:blue;">(Tiempo)</i> + Nºinterrupciones <i style="color: green;"> (Tamaño del bloque a transferir / tamaño de nuestro registro de datos (buffer the interrupcion) <i style="color: blue;">(puede estar en Bytes o bits 1B = 8bits)</i></i> × T <sub>interrupciones</sub><i style="color: green;">(SRI + RTI)</i> + T<sub>fin</sub> <i style="color: green;">(el tiempo de inicio o de fin lo pueden dar en Ins y lo tienes que pasar a unidades de tiempo)</i>
         <br>
         <br> <b>DMA: </b>
@@ -149,7 +149,7 @@
         <br> T RTI <i style="color:blue;">(Tiempo)</i> = SRI + Tfin
         <br> Nº Robos de ciclo = Tamaño del bloque / Tamaño registro de datos 
         <br>
-        <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / tam registro de datos)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
+        <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / V <sub>Transferencia</sub>)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
         <br><b>T<sub>cpu</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + Nº robos de ciclo <i style="color: green;">(Bloque a transferir / Tamaño de mis buffer de datos "nº registros * Tam registros") </i> × T <sub>DMA</sub><i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
         <br><b>%CPU</b> = (T<sub>CPU</sub> / T<sub>operacion</sub>) x 100
         <br> 
@@ -176,7 +176,7 @@
     
         <h2><center>Examenes</center></h2>
             <embed src="Docs/exa.pdf" type="application/pdf" width="100%" height="750px" style="padding-top: 7%" />
-            
+
         <h2><center>Unidades</center></h2>
 
         <table style="padding-left: 25%; padding-right: 25%; width: 50%;" >
