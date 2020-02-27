@@ -123,7 +123,7 @@
             <div class="card-body">
               <h5 class="card-title">Principales</h5>
               <br><b>T<sub>operacion</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + T<sub>transferencia</sub> <i style="color: green;">(tamaño archivo / tam registro de datos)</i> + T<sub>ultimo robo de ciclo</sub> <i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
-            <br><b>T<sub>cpu</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + Nº robos de ciclo <i style="color: green;">(Bloque a transferir / Tamaño de mis buffer de datos "nº registros * Tam registros") </i> × T <sub>DMA</sub><i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
+            <br><b>T<sub>cpu</sub></b> <i style="color:blue;">(Tiempo)</i> = T<sub>inicio</sub> + Nº robos de ciclo<sub>DMA</sub> <i style="color: green;">(Bloque a transferir / Tamaño de mis buffer de datos "nº registros * Tam registros") </i> × T <sub>DMA</sub><i style="color: green;"> (Bus de datos+registro x T<sub>Acc</sub>) o (T<sub>Concesion/liberacion</sub> + T<sub>MP</sub>) </i> + T <sub>ultima interrupcion</sub><i style="color: green;"> (SRI + T<sub>Fin</sub>) </i>
             <br>%CPU = (T<sub>CPU</sub> / T<sub>operacion</sub>) x 100
             </div>
           </div>
@@ -175,7 +175,348 @@
         </li>
     
         <h2><center>Examenes</center></h2>
-        </div>
-    
+            <embed src="Docs/exa.pdf" type="application/pdf" width="100%" height="750px" style="padding-top: 7%" />
+            
+        <h2><center>Unidades</center></h2>
+
+        <table style="padding-left: 25%; padding-right: 25%; width: 50%;" >
+          <tbody><tr>
+          <th colspan="3">Submúltiplos
+          </th>
+          <td rowspan="12">
+          </td>
+          <th colspan="3">Múltiplos
+          </th></tr>
+          <tr style="background:#d4d4d4;">
+          <th>Valor
+          </th>
+          <th>Símbolo
+          </th>
+          <th>Nombre
+          </th>
+          <th>Valor
+          </th>
+          <th>Símbolo
+          </th>
+          <th>Nombre
+          </th></tr>
+          <tr>
+          <td>10<sup>−1</sup> s
+          </td>
+          <td>ds
+          </td>
+          <td>decisegundo
+          </td>
+          <td>10<sup>1</sup> s
+          </td>
+          <td>das
+          </td>
+          <td>decasegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−2</sup> s
+          </td>
+          <td>cs
+          </td>
+          <td>centisegundo
+          </td>
+          <td>10<sup>2</sup> s
+          </td>
+          <td>hs
+          </td>
+          <td>hectosegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−3</sup> s
+          </td>
+          <td><b>ms</b>
+          </td>
+          <td><b>milisegundo</b>
+          </td>
+          <td>10<sup>3</sup> s
+          </td>
+          <td>ks
+          </td>
+          <td>kilosegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−6</sup> s
+          </td>
+          <td><b>µs</b>
+          </td>
+          <td><b>microsegundo</b>
+          </td>
+          <td>10<sup>6</sup> s
+          </td>
+          <td>Ms
+          </td>
+          <td>megasegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−9</sup> s
+          </td>
+          <td><b>ns</b>
+          </td>
+          <td><b>nanosegundo</b>
+          </td>
+          <td>10<sup>9</sup> s
+          </td>
+          <td>Gs
+          </td>
+          <td>gigasegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−12</sup> s
+          </td>
+          <td>ps
+          </td>
+          <td>picosegundo
+          </td>
+          <td>10<sup>12</sup> s
+          </td>
+          <td>Ts
+          </td>
+          <td>terasegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−15</sup> s
+          </td>
+          <td>fs
+          </td>
+          <td>femtosegundo
+          </td>
+          <td>10<sup>15</sup> s
+          </td>
+          <td>Ps
+          </td>
+          <td>petasegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−18</sup> s
+          </td>
+          <td>as
+          </td>
+          <td>attosegundo
+          </td>
+          <td>10<sup>18</sup> s
+          </td>
+          <td>Es
+          </td>
+          <td>exasegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−21</sup> s
+          </td>
+          <td>zs
+          </td>
+          <td>zeptosegundo
+          </td>
+          <td>10<sup>21</sup> s
+          </td>
+          <td>Zs
+          </td>
+          <td>zettasegundo
+          </td></tr>
+          <tr>
+          <td>10<sup>−24</sup> s
+          </td>
+          <td>ys
+          </td>
+          <td>yoctosegundo
+          </td>
+          <td>10<sup>24</sup> s
+          </td>
+          <td>Ys
+          </td>
+          <td>yottasegundo
+          </td></tr>
+          <tr>
+          <td colspan="7">
+          </td></tr></tbody></table>
+
+          <table class="infobox noprint" style="padding: 0; text-align: left; width: 0;">
+            <tbody><tr>
+            <th colspan="2" class="navbox-title" style="text-align: center">Prefixes for multiples of <br /> (bit) or bytes(B)
+            </th></tr>
+            <tr>
+            <td>
+            <table style="border: 1px #aaa solid">
+            <tbody><tr>
+            <th colspan="4" style="background:lavender; text-align: center">Decimal
+            </th></tr>
+            <tr>
+            <th colspan="2" style="background: #eeeeff; text-align:center; padding:0.2em 0.3em;">Value
+            </th>
+            <th colspan="2" style="background: #eeeeff; text-align: center">SI
+            </th></tr>
+            <tr>
+            <td>1000
+            </td>
+            <td>10<sup>3</sup>
+            </td>
+            <td>k</td>
+            <td><a title="Kilo-">kilo</a>
+            </td></tr>
+            <tr>
+            <td>1000<sup>2</sup>
+            </td>
+            <td>10<sup>6</sup>
+            </td>
+            <td>M</td>
+            <td><a title="Mega-">mega</a>
+            </td></tr>
+            <tr>
+            <td>1000<sup>3</sup>
+            </td>
+            <td>10<sup>9</sup>
+            </td>
+            <td>G</td>
+            <td><a  title="Giga-">giga</a>
+            </td></tr>
+            <tr>
+            <td>1000<sup>4</sup>
+            </td>
+            <td>10<sup>12</sup>
+            </td>
+            <td>T</td>
+            <td><a  title="Tera-">tera</a>
+            </td></tr>
+            <tr>
+            <td>1000<sup>5</sup>
+            </td>
+            <td>10<sup>15</sup>
+            </td>
+            <td>P</td>
+            <td><a  title="Peta-">peta</a>
+            </td></tr>
+            <tr>
+            <td>1000<sup>6</sup>
+            </td>
+            <td>10<sup>18</sup>
+            </td>
+            <td>E</td>
+            <td><a  title="Exa-">exa</a>
+            </td></tr>
+            <tr>
+            <td>1000<sup>7</sup>
+            </td>
+            <td>10<sup>21</sup>
+            </td>
+            <td>Z</td>
+            <td><a  title="Zetta-">zetta</a>
+            </td></tr>
+            <tr>
+            <td>1000<sup>8</sup>
+            </td>
+            <td>10<sup>24</sup>
+            </td>
+            <td>Y</td>
+            <td><a  title="Yotta-">yotta</a>
+            </td></tr></tbody></table>
+            </td>
+            <td>
+            <table style="border: 1px #aaa solid">
+            <tbody><tr>
+            <th colspan="6" style="background:lavender; text-align:center">Binary
+            </th></tr>
+            <tr>
+            <th colspan="2" style="background: #eeeeff; text-align:center;">Value
+            </th>
+            <th colspan="2" style="background: #eeeeff; text-align:center">IEC
+            </th>
+            <th colspan="2" style="background: #eeeeff; text-align:center">JEDEC
+            </th></tr>
+            <tr>
+            <td>1024
+            </td>
+            <td>2<sup>10</sup>
+            </td>
+            <td>Ki</td>
+            <td><a  class="mw-redirect" title="Kibi-">kibi</a>
+            </td>
+            <td>K</td>
+            <td>kilo
+            </td></tr>
+            <tr>
+            <td>1024<sup>2</sup>
+            </td>
+            <td>2<sup>20</sup>
+            </td>
+            <td>Mi</td>
+            <td><a  class="mw-redirect" title="Mebi-">mebi</a>
+            </td>
+            <td>M</td>
+            <td>mega
+            </td></tr>
+            <tr>
+            <td>1024<sup>3</sup>
+            </td>
+            <td>2<sup>30</sup>
+            </td>
+            <td>Gi</td>
+            <td><a  class="mw-redirect" title="Gibi-">gibi</a>
+            </td>
+            <td>G</td>
+            <td>giga
+            </td></tr>
+            <tr>
+            <td>1024<sup>4</sup>
+            </td>
+            <td>2<sup>40</sup>
+            </td>
+            <td>Ti</td>
+            <td><a  class="mw-redirect" title="Tebi-">tebi</a>
+            </td>
+            <td style="text-align:center">–</td>
+            <td>
+            </td></tr>
+            <tr>
+            <td>1024<sup>5</sup>
+            </td>
+            <td>2<sup>50</sup>
+            </td>
+            <td>Pi</td>
+            <td><a  class="mw-redirect" title="Pebi-">pebi</a>
+            </td>
+            <td style="text-align:center">–</td>
+            <td>
+            </td></tr>
+            <tr>
+            <td>1024<sup>6</sup>
+            </td>
+            <td>2<sup>60</sup>
+            </td>
+            <td>Ei</td>
+            <td><a  class="mw-redirect" title="Exbi-">exbi</a>
+            </td>
+            <td style="text-align:center">–</td>
+            <td>
+            </td></tr>
+            <tr>
+            <td>1024<sup>7</sup>
+            </td>
+            <td>2<sup>70</sup>
+            </td>
+            <td>Zi</td>
+            <td><a  class="mw-redirect" title="Zebi-">zebi</a>
+            </td>
+            <td style="text-align:center">–</td>
+            <td>
+            </td></tr>
+            <tr>
+            <td>1024<sup>8</sup>
+            </td>
+            <td>2<sup>80</sup>
+            </td>
+            <td>Yi</td>
+            <td><a class="mw-redirect" title="Yobi-">yobi</a>
+            </td>
+            <td style="text-align:center">–</td>
+            <td>
+            </td></tr></tbody></table>
+
+            
+        </div>  
+        
     </body>
 </html>
